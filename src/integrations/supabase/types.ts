@@ -825,7 +825,69 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      close_cash: { Args: { p_date: string; p_note?: string }; Returns: Json }
+      create_expense: {
+        Args: {
+          p_amount: number
+          p_category?: string
+          p_description: string
+          p_expense_date?: string
+          p_method?: string
+          p_note?: string
+          p_paid?: boolean
+        }
+        Returns: Json
+      }
+      create_purchase: {
+        Args: {
+          p_items: Json
+          p_method?: string
+          p_note?: string
+          p_paid?: number
+          p_purchase_date?: string
+          p_supplier_id?: string
+        }
+        Returns: Json
+      }
+      create_sale: {
+        Args: {
+          p_allow_negative_stock?: boolean
+          p_customer_id?: string
+          p_discount?: number
+          p_items: Json
+          p_method?: string
+          p_note?: string
+          p_paid?: number
+          p_sale_date?: string
+        }
+        Returns: Json
+      }
+      create_sale_return: {
+        Args: {
+          p_items: Json
+          p_reason?: string
+          p_refund?: number
+          p_restock?: boolean
+          p_sale_id: string
+        }
+        Returns: Json
+      }
       next_doc_number: { Args: { _prefix: string }; Returns: string }
+      record_payment: {
+        Args: {
+          p_allow_overpay?: boolean
+          p_amount: number
+          p_customer_id?: string
+          p_direction: string
+          p_method?: string
+          p_note?: string
+          p_paid_at?: string
+          p_purchase_id?: string
+          p_sale_id?: string
+          p_supplier_id?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
