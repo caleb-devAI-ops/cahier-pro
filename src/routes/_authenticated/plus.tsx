@@ -37,7 +37,7 @@ function MorePage() {
 
   return (
     <div className="pb-6">
-      <PageHeader title="Plus" subtitle={profile?.business_name || profile?.full_name || undefined} />
+      <PageHeader title="Plus" subtitle={profile?.business_name || profile?.full_name || ""} />
 
       <div className="card-surface mx-4 divide-y divide-border">
         {LINKS.map(({ to, label, icon: Icon }) => (

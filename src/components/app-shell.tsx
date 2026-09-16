@@ -70,7 +70,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   navigate({
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     to: path as any,
-                    search: search ? { nouveau: "1" } : undefined,
+                    ...(search ? { search: { nouveau: "1" } } : {}),
                   });
                 }}
                 className="flex flex-col items-start gap-3 rounded-2xl bg-secondary p-4 text-left transition-transform active:scale-95"
