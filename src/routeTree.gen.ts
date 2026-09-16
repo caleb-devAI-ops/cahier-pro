@@ -14,6 +14,9 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as AuthenticatedVentesIndexRouteImport } from './routes/_authenticated/ventes.index'
+import { Route as AuthenticatedVentesIdRouteImport } from './routes/_authenticated/ventes.$id'
+import { Route as AuthenticatedVentesNouvelleRouteImport } from './routes/_authenticated/ventes.nouvelle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,18 +43,41 @@ const AuthenticatedTableauDeBordRoute =
     path: '/tableau-de-bord',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedVentesIndexRoute =
+  AuthenticatedVentesIndexRouteImport.update({
+    id: '/ventes/',
+    path: '/ventes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedVentesIdRoute = AuthenticatedVentesIdRouteImport.update({
+  id: '/ventes/$id',
+  path: '/ventes/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedVentesNouvelleRoute =
+  AuthenticatedVentesNouvelleRouteImport.update({
+    id: '/ventes/nouvelle',
+    path: '/ventes/nouvelle',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/ventes/$id': typeof AuthenticatedVentesIdRoute
+  '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/ventes/': typeof AuthenticatedVentesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/ventes/$id': typeof AuthenticatedVentesIdRoute
+  '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/ventes': typeof AuthenticatedVentesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -60,12 +86,29 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/_authenticated/ventes/$id': typeof AuthenticatedVentesIdRoute
+  '/_authenticated/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/_authenticated/ventes/': typeof AuthenticatedVentesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/tableau-de-bord'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/tableau-de-bord'
+    | '/ventes/$id'
+    | '/ventes/nouvelle'
+    | '/ventes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/tableau-de-bord'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/tableau-de-bord'
+    | '/ventes/$id'
+    | '/ventes/nouvelle'
+    | '/ventes'
   id:
     | '__root__'
     | '/'
@@ -73,6 +116,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/tableau-de-bord'
+    | '/_authenticated/ventes/$id'
+    | '/_authenticated/ventes/nouvelle'
+    | '/_authenticated/ventes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,15 +165,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ventes/': {
+      id: '/_authenticated/ventes/'
+      path: '/ventes'
+      fullPath: '/ventes/'
+      preLoaderRoute: typeof AuthenticatedVentesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ventes/$id': {
+      id: '/_authenticated/ventes/$id'
+      path: '/ventes/$id'
+      fullPath: '/ventes/$id'
+      preLoaderRoute: typeof AuthenticatedVentesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ventes/nouvelle': {
+      id: '/_authenticated/ventes/nouvelle'
+      path: '/ventes/nouvelle'
+      fullPath: '/ventes/nouvelle'
+      preLoaderRoute: typeof AuthenticatedVentesNouvelleRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
+  AuthenticatedVentesIdRoute: typeof AuthenticatedVentesIdRoute
+  AuthenticatedVentesNouvelleRoute: typeof AuthenticatedVentesNouvelleRoute
+  AuthenticatedVentesIndexRoute: typeof AuthenticatedVentesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
+  AuthenticatedVentesIdRoute: AuthenticatedVentesIdRoute,
+  AuthenticatedVentesNouvelleRoute: AuthenticatedVentesNouvelleRoute,
+  AuthenticatedVentesIndexRoute: AuthenticatedVentesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
