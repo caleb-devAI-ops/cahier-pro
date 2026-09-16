@@ -72,7 +72,7 @@ function CustomerDetail() {
         <StatCard
           label="Transactions"
           value={String(cs.length)}
-          hint={cs[0] ? `Dernière : ${formatDate(cs[0].sale_date)}` : undefined}
+          hint={cs[0] ? `Dernière : ${formatDate(cs[0].sale_date)}` : ""}
         />
       </div>
 
