@@ -63,7 +63,7 @@ export function CustomerDialog({
       ? await supabase.from("customers").update(payload).eq("id", customer.id)
       : await supabase.from("customers").insert(payload);
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(customer ? "Client mis à jour" : "Client ajouté");
     qc.invalidateQueries({ queryKey: qk.customers });
     onClose();
@@ -171,7 +171,7 @@ export function ProductDialog({
         .insert({ ...payload, stock: form.track_stock ? num(form.stock) : 0 }));
     }
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(product ? "Produit mis à jour" : "Produit ajouté");
     qc.invalidateQueries({ queryKey: qk.products });
     onClose();
@@ -297,7 +297,7 @@ export function SupplierDialog({
       ? await supabase.from("suppliers").update(payload).eq("id", supplier.id)
       : await supabase.from("suppliers").insert(payload);
     setLoading(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(supplier ? "Fournisseur mis à jour" : "Fournisseur ajouté");
     qc.invalidateQueries({ queryKey: qk.suppliers });
     onClose();
