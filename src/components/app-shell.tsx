@@ -83,50 +83,37 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       ) : null}
 
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Actions rapides"
+        className="fixed bottom-24 right-5 z-40 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-float)] transition-transform active:scale-90"
+      >
+        <Plus className={cn("size-7 transition-transform", open && "rotate-45")} />
+      </button>
+
       <nav className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-3xl safe-bottom border-t border-border bg-card/95 backdrop-blur">
-        <div className="grid grid-cols-5 items-end px-1 pt-2">
-          {NAV.map((item, index) => {
+        <div className="grid grid-cols-5 px-1 pt-2">
+          {NAV.map((item) => {
             const active = pathname.startsWith(item.to);
             const Icon = item.icon;
             return (
-              <div key={item.to} className="flex flex-col items-center">
-                {index === 2 ? (
-                  <button
-                    onClick={() => setOpen((v) => !v)}
-                    aria-label="Actions rapides"
-                    className="-mt-8 mb-1 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-float)] transition-transform active:scale-90"
-                  >
-                    <Plus className={cn("size-7 transition-transform", open && "rotate-45")} />
-                  </button>
-                ) : null}
-                {index !== 2 ? (
-                  <Link
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    to={item.to as any}
-                    className={cn(
-                      "flex w-full flex-col items-center gap-1 rounded-xl py-1.5 text-[11px] font-medium transition-colors",
-                      active ? "text-primary" : "text-muted-foreground",
-                    )}
-                  >
-                    <Icon className="size-5" />
-                    {item.label}
-                  </Link>
-                ) : (
-                  <Link
-                    to="/clients"
-                    className={cn(
-                      "flex w-full flex-col items-center gap-1 rounded-xl pb-1.5 text-[11px] font-medium transition-colors",
-                      pathname.startsWith("/clients") ? "text-primary" : "text-muted-foreground",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
+              <Link
+                key={item.to}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                to={item.to as any}
+                className={cn(
+                  "flex flex-col items-center gap-1 rounded-xl py-1.5 text-[11px] font-medium transition-colors",
+                  active ? "text-primary" : "text-muted-foreground",
                 )}
-              </div>
+              >
+                <Icon className="size-5" />
+                {item.label}
+              </Link>
             );
           })}
         </div>
       </nav>
+
     </div>
   );
 }
