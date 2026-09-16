@@ -13,9 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedARecevoirRouteImport } from './routes/_authenticated/a-recevoir'
+import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
+import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
 import { Route as AuthenticatedClientsIdRouteImport } from './routes/_authenticated/clients.$id'
+import { Route as AuthenticatedDepensesIndexRouteImport } from './routes/_authenticated/depenses.index'
 import { Route as AuthenticatedProduitsIndexRouteImport } from './routes/_authenticated/produits.index'
 import { Route as AuthenticatedVentesIndexRouteImport } from './routes/_authenticated/ventes.index'
 import { Route as AuthenticatedVentesIdRouteImport } from './routes/_authenticated/ventes.$id'
@@ -40,6 +44,21 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedARecevoirRoute = AuthenticatedARecevoirRouteImport.update({
+  id: '/a-recevoir',
+  path: '/a-recevoir',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHistoriqueRoute = AuthenticatedHistoriqueRouteImport.update({
+  id: '/historique',
+  path: '/historique',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPlusRoute = AuthenticatedPlusRouteImport.update({
+  id: '/plus',
+  path: '/plus',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTableauDeBordRoute =
   AuthenticatedTableauDeBordRouteImport.update({
     id: '/tableau-de-bord',
@@ -57,6 +76,12 @@ const AuthenticatedClientsIdRoute = AuthenticatedClientsIdRouteImport.update({
   path: '/clients/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDepensesIndexRoute =
+  AuthenticatedDepensesIndexRouteImport.update({
+    id: '/depenses/',
+    path: '/depenses/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProduitsIndexRoute =
   AuthenticatedProduitsIndexRouteImport.update({
     id: '/produits/',
@@ -85,11 +110,15 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/historique': typeof AuthenticatedHistoriqueRoute
+  '/plus': typeof AuthenticatedPlusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
+  '/depenses/': typeof AuthenticatedDepensesIndexRoute
   '/produits/': typeof AuthenticatedProduitsIndexRoute
   '/ventes/': typeof AuthenticatedVentesIndexRoute
 }
@@ -97,11 +126,15 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/historique': typeof AuthenticatedHistoriqueRoute
+  '/plus': typeof AuthenticatedPlusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
+  '/depenses': typeof AuthenticatedDepensesIndexRoute
   '/produits': typeof AuthenticatedProduitsIndexRoute
   '/ventes': typeof AuthenticatedVentesIndexRoute
 }
@@ -111,11 +144,15 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
+  '/_authenticated/plus': typeof AuthenticatedPlusRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
   '/_authenticated/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/_authenticated/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
+  '/_authenticated/depenses/': typeof AuthenticatedDepensesIndexRoute
   '/_authenticated/produits/': typeof AuthenticatedProduitsIndexRoute
   '/_authenticated/ventes/': typeof AuthenticatedVentesIndexRoute
 }
@@ -125,11 +162,15 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/a-recevoir'
+    | '/historique'
+    | '/plus'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
     | '/clients/'
+    | '/depenses/'
     | '/produits/'
     | '/ventes/'
   fileRoutesByTo: FileRoutesByTo
@@ -137,11 +178,15 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/a-recevoir'
+    | '/historique'
+    | '/plus'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
     | '/clients'
+    | '/depenses'
     | '/produits'
     | '/ventes'
   id:
@@ -150,11 +195,15 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/a-recevoir'
+    | '/_authenticated/historique'
+    | '/_authenticated/plus'
     | '/_authenticated/tableau-de-bord'
     | '/_authenticated/clients/$id'
     | '/_authenticated/ventes/$id'
     | '/_authenticated/ventes/nouvelle'
     | '/_authenticated/clients/'
+    | '/_authenticated/depenses/'
     | '/_authenticated/produits/'
     | '/_authenticated/ventes/'
   fileRoutesById: FileRoutesById
@@ -196,6 +245,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/a-recevoir': {
+      id: '/_authenticated/a-recevoir'
+      path: '/a-recevoir'
+      fullPath: '/a-recevoir'
+      preLoaderRoute: typeof AuthenticatedARecevoirRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/historique': {
+      id: '/_authenticated/historique'
+      path: '/historique'
+      fullPath: '/historique'
+      preLoaderRoute: typeof AuthenticatedHistoriqueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/plus': {
+      id: '/_authenticated/plus'
+      path: '/plus'
+      fullPath: '/plus'
+      preLoaderRoute: typeof AuthenticatedPlusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tableau-de-bord': {
       id: '/_authenticated/tableau-de-bord'
       path: '/tableau-de-bord'
@@ -215,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/clients/$id'
       fullPath: '/clients/$id'
       preLoaderRoute: typeof AuthenticatedClientsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/depenses/': {
+      id: '/_authenticated/depenses/'
+      path: '/depenses'
+      fullPath: '/depenses/'
+      preLoaderRoute: typeof AuthenticatedDepensesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/produits/': {
@@ -249,21 +326,29 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedARecevoirRoute: typeof AuthenticatedARecevoirRoute
+  AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
+  AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
   AuthenticatedVentesIdRoute: typeof AuthenticatedVentesIdRoute
   AuthenticatedVentesNouvelleRoute: typeof AuthenticatedVentesNouvelleRoute
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
+  AuthenticatedDepensesIndexRoute: typeof AuthenticatedDepensesIndexRoute
   AuthenticatedProduitsIndexRoute: typeof AuthenticatedProduitsIndexRoute
   AuthenticatedVentesIndexRoute: typeof AuthenticatedVentesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedARecevoirRoute: AuthenticatedARecevoirRoute,
+  AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
+  AuthenticatedPlusRoute: AuthenticatedPlusRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
   AuthenticatedVentesIdRoute: AuthenticatedVentesIdRoute,
   AuthenticatedVentesNouvelleRoute: AuthenticatedVentesNouvelleRoute,
   AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
+  AuthenticatedDepensesIndexRoute: AuthenticatedDepensesIndexRoute,
   AuthenticatedProduitsIndexRoute: AuthenticatedProduitsIndexRoute,
   AuthenticatedVentesIndexRoute: AuthenticatedVentesIndexRoute,
 }
