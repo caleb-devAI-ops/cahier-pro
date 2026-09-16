@@ -35,7 +35,7 @@ function HistoryPage() {
       ) : null}
 
       <div className="space-y-2 px-4">
-        {data.map((a: Record<string, any>) => (
+        {data.map((a) => (
           <div key={a.id} className="card-surface flex items-center justify-between gap-3 px-4 py-3">
             <div className="min-w-0">
               <p className="truncate text-sm font-medium">{a.description}</p>
