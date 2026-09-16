@@ -84,11 +84,11 @@ function NewSale() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (lines.length === 0) return toast.error("Ajoutez au moins un produit");
-    if (total < 0) return toast.error("La remise dépasse le sous-total");
-    if (num(paid) > total) return toast.error("Le montant payé dépasse le total");
+    if (lines.length === 0) { toast.error("Ajoutez au moins un produit"); return; }
+    if (total < 0) { toast.error("La remise dépasse le sous-total"); return; }
+    if (num(paid) > total) { toast.error("Le montant payé dépasse le total"); return; }
     if (stockIssue && !allowNegative)
-      return toast.error("Stock insuffisant : confirmez la vente au-delà du stock disponible");
+      { toast.error("Stock insuffisant : confirmez la vente au-delà du stock disponible"); return; }
     try {
       const result = await createSale.mutateAsync({
         p_items: lines.map((l) => ({

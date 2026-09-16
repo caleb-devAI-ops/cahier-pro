@@ -7,7 +7,8 @@ import { ProductDialog, type ProductRecord } from "@/components/forms";
 import { EmptyState, ErrorState, LoadingList, PageHeader, StatusPill } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/_authenticated/produits/")({
-  validateSearch: (s: Record<string, unknown>) => ({ nouveau: (s["nouveau"] as string) || undefined }),
+  validateSearch: (s: Record<string, unknown>): { nouveau?: string } =>
+    s["nouveau"] ? { nouveau: String(s["nouveau"]) } : {},
   head: () => ({
     meta: [
       { title: "Produits — Cahier Pro" },

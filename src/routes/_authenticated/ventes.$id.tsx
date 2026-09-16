@@ -45,7 +45,7 @@ function SaleDetail() {
     const payload = Object.entries(quantities)
       .filter(([, v]) => num(v) > 0)
       .map(([sale_item_id, v]) => ({ sale_item_id, quantity: num(v) }));
-    if (payload.length === 0) return toast.error("Indiquez au moins une quantité à retourner");
+    if (payload.length === 0) { toast.error("Indiquez au moins une quantité à retourner"); return; }
     try {
       await createReturn.mutateAsync({
         p_sale_id: id,

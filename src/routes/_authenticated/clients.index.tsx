@@ -8,7 +8,8 @@ import { CustomerDialog } from "@/components/forms";
 import { EmptyState, ErrorState, LoadingList, PageHeader } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/_authenticated/clients/")({
-  validateSearch: (s: Record<string, unknown>) => ({ nouveau: (s["nouveau"] as string) || undefined }),
+  validateSearch: (s: Record<string, unknown>): { nouveau?: string } =>
+    s["nouveau"] ? { nouveau: String(s["nouveau"]) } : {},
   head: () => ({
     meta: [
       { title: "Clients — Cahier Pro" },

@@ -50,7 +50,7 @@ export function CustomerDialog({
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim()) return toast.error("Le nom du client est obligatoire");
+    if (!name.trim()) { toast.error("Le nom du client est obligatoire"); return; }
     setLoading(true);
     const payload = {
       name: name.trim(),
@@ -148,7 +148,7 @@ export function ProductDialog({
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name.trim()) return toast.error("Le nom du produit est obligatoire");
+    if (!form.name.trim()) { toast.error("Le nom du produit est obligatoire"); return; }
     setLoading(true);
     const payload = {
       name: form.name.trim(),
@@ -284,7 +284,7 @@ export function SupplierDialog({
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim()) return toast.error("Le nom est obligatoire");
+    if (!name.trim()) { toast.error("Le nom est obligatoire"); return; }
     setLoading(true);
     const payload = {
       name: name.trim(),
@@ -338,8 +338,8 @@ export function ExpenseDialog({ open, onClose }: { open: boolean; onClose: () =>
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!description.trim()) return toast.error("Décrivez la dépense");
-    if (num(amount) <= 0) return toast.error("Le montant doit être supérieur à zéro");
+    if (!description.trim()) { toast.error("Décrivez la dépense"); return; }
+    if (num(amount) <= 0) { toast.error("Le montant doit être supérieur à zéro"); return; }
     try {
       await rpc.mutateAsync({
         p_description: description.trim(),
@@ -415,9 +415,9 @@ export function PaymentDialog({
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (num(amount) <= 0) return toast.error("Le montant doit être supérieur à zéro");
+    if (num(amount) <= 0) { toast.error("Le montant doit être supérieur à zéro"); return; }
     if (over && !confirmOverpay) {
-      return toast.error("Le montant dépasse le reste à payer. Cochez la confirmation pour continuer.");
+      { toast.error("Le montant dépasse le reste à payer. Cochez la confirmation pour continuer."); return; }
     }
     try {
       await rpc.mutateAsync({

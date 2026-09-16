@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { History } from "lucide-react";
-import { useActivityLog } from "@/lib/db";
+import { useActivity } from "@/lib/db";
 import { formatDateTime, formatMoney } from "@/lib/format";
 import { EmptyState, ErrorState, LoadingList, PageHeader } from "@/components/ui-bits";
 
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/historique")({
 });
 
 function HistoryPage() {
-  const { data = [], isLoading, error } = useActivityLog();
+  const { data = [], isLoading, error } = useActivity();
 
   return (
     <div>

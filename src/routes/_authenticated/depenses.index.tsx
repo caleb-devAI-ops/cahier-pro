@@ -7,7 +7,8 @@ import { ExpenseDialog } from "@/components/forms";
 import { EmptyState, ErrorState, LoadingList, PageHeader } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/_authenticated/depenses/")({
-  validateSearch: (s: Record<string, unknown>) => ({ nouveau: (s["nouveau"] as string) || undefined }),
+  validateSearch: (s: Record<string, unknown>): { nouveau?: string } =>
+    s["nouveau"] ? { nouveau: String(s["nouveau"]) } : {},
   head: () => ({
     meta: [
       { title: "Dépenses — Cahier Pro" },

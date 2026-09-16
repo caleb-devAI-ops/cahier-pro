@@ -7,9 +7,8 @@ import { lovable } from "@/integrations/lovable/index";
 type Mode = "login" | "signup" | "forgot";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    mode: (search["mode"] as Mode | undefined) ?? "signup",
-  }),
+  validateSearch: (search: Record<string, unknown>): { mode?: Mode } =>
+    search["mode"] ? { mode: search["mode"] as Mode } : {},
   head: () => ({
     meta: [
       { title: "Connexion — Cahier Pro" },
