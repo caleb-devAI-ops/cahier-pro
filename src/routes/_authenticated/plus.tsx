@@ -1,10 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
+  BarChart3,
   ChevronRight,
   Clock,
   HandCoins,
   LogOut,
   Receipt,
+  Settings,
+  ShoppingBag,
+  Truck,
   Wallet,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,21 +19,40 @@ export const Route = createFileRoute("/_authenticated/plus")({
   head: () => ({
     meta: [
       { title: "Plus — Cahier Pro" },
-      { name: "description", content: "Dépenses, créances, historique et compte." },
+      { name: "description", content: "Achats, fournisseurs, caisse, rapports, dépenses et compte." },
       { property: "og:title", content: "Plus — Cahier Pro" },
-      { property: "og:description", content: "Dépenses, créances, historique et compte." },
+      { property: "og:description", content: "Tous les modules de gestion de votre commerce." },
     ],
   }),
   component: MorePage,
 });
 
-const LINKS = [
-  { to: "/depenses", label: "Dépenses", icon: Receipt },
-  { to: "/a-recevoir", label: "À recevoir", icon: HandCoins },
-  { to: "/historique", label: "Historique", icon: Clock },
-] as const;
-
-const SOON = ["Achats et fournisseurs", "Caisse et clôture", "Rapports et exports", "Paramètres"];
+const GROUPS: { title: string; links: { to: string; label: string; icon: typeof Receipt }[] }[] = [
+  {
+    title: "Argent",
+    links: [
+      { to: "/depenses", label: "Dépenses", icon: Receipt },
+      { to: "/a-recevoir", label: "À recevoir (clients)", icon: HandCoins },
+      { to: "/a-payer", label: "À payer (fournisseurs)", icon: HandCoins },
+      { to: "/caisse", label: "Caisse et clôture", icon: Wallet },
+    ],
+  },
+  {
+    title: "Approvisionnement",
+    links: [
+      { to: "/achats", label: "Achats", icon: ShoppingBag },
+      { to: "/fournisseurs", label: "Fournisseurs", icon: Truck },
+    ],
+  },
+  {
+    title: "Analyse et compte",
+    links: [
+      { to: "/rapports", label: "Rapports et exports", icon: BarChart3 },
+      { to: "/historique", label: "Historique", icon: Clock },
+      { to: "/parametres", label: "Paramètres", icon: Settings },
+    ],
+  },
+];
 
 function MorePage() {
   const navigate = useNavigate();
@@ -39,43 +62,34 @@ function MorePage() {
     <div className="pb-6">
       <PageHeader title="Plus" subtitle={profile?.business_name || profile?.full_name || ""} />
 
-      <div className="card-surface mx-4 divide-y divide-border">
-        {LINKS.map(({ to, label, icon: Icon }) => (
-          <Link key={to} to={to} className="flex items-center gap-3 px-4 py-3.5">
-            <Icon className="size-5 text-primary" />
-            <span className="flex-1 text-sm font-medium">{label}</span>
-            <ChevronRight className="size-4 text-muted-foreground" />
-          </Link>
-        ))}
-      </div>
-
-      <section className="mt-6 px-4">
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-          Prochainement
-        </h2>
-        <div className="card-surface divide-y divide-border">
-          {SOON.map((label) => (
-            <div key={label} className="flex items-center gap-3 px-4 py-3.5">
-              <Wallet className="size-5 text-muted-foreground" />
-              <span className="flex-1 text-sm">{label}</span>
-              <span className="rounded-full bg-secondary px-2.5 py-1 text-xs text-muted-foreground">
-                à venir
-              </span>
-            </div>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-muted-foreground">
-          Ces modules ne sont pas encore actifs : rien n'est affiché de faux tant qu'ils ne
-          fonctionnent pas.
-        </p>
-      </section>
+      {GROUPS.map((group) => (
+        <section key={group.title} className="mb-5">
+          <h2 className="px-4 pb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {group.title}
+          </h2>
+          <div className="card-surface mx-4 divide-y divide-border">
+            {group.links.map(({ to, label, icon: Icon }) => (
+              <Link
+                key={to}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                to={to as any}
+                className="flex items-center gap-3 px-4 py-3.5"
+              >
+                <Icon className="size-5 text-primary" />
+                <span className="flex-1 text-sm font-medium">{label}</span>
+                <ChevronRight className="size-4 text-muted-foreground" />
+              </Link>
+            ))}
+          </div>
+        </section>
+      ))}
 
       <button
         onClick={async () => {
           await supabase.auth.signOut();
           navigate({ to: "/auth", replace: true });
         }}
-        className="mx-4 mt-6 flex w-[calc(100%-2rem)] items-center justify-center gap-2 rounded-full bg-destructive/10 py-3.5 text-sm font-semibold text-destructive"
+        className="mx-4 mt-2 flex w-[calc(100%-2rem)] items-center justify-center gap-2 rounded-full bg-destructive/10 py-3.5 text-sm font-semibold text-destructive"
       >
         <LogOut className="size-4" /> Se déconnecter
       </button>
