@@ -199,13 +199,52 @@ export function useInvalidateAll() {
   };
 }
 
+export function useCashClosures() {
+  return useQuery({
+    queryKey: ["cash_closures"],
+    queryFn: () =>
+      unwrap(
+        supabase.from("cash_closures").select("*").order("closure_date", { ascending: false }).limit(90),
+      ),
+  });
+}
+
+/** Lignes de vente (pour le bénéfice total par produit). */
+export function useSaleItems() {
+  return useQuery({
+    queryKey: ["sale_items"],
+    queryFn: () =>
+      unwrap(
+        supabase
+          .from("sale_items")
+          .select("*, sales(status, sale_date)")
+          .limit(5000),
+      ),
+  });
+}
+
+export type RpcName =
+  | "create_sale"
+  | "create_purchase"
+  | "record_payment"
+  | "create_expense"
+  | "create_sale_return"
+  | "close_cash"
+  | "reset_history";
+
 /** Appel d'une fonction métier côté base (transaction atomique). */
 export function useRpc<TArgs extends Record<string, unknown>, TResult = unknown>(
-  fn: "create_sale" | "create_purchase" | "record_payment" | "create_expense" | "create_sale_return" | "close_cash",
+  fn: RpcName,
+  options?: { offlineLabel?: string },
 ) {
   const invalidate = useInvalidateAll();
   return useMutation({
     mutationFn: async (args: TArgs) => {
+      const offline = typeof navigator !== "undefined" && !navigator.onLine;
+      if (offline && isQueueable(fn)) {
+        enqueue(fn, args, options?.offlineLabel ?? fn);
+        return { queued: true } as TResult;
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data, error } = await (supabase.rpc as any)(fn, args);
       if (error) throw new Error(error.message);
