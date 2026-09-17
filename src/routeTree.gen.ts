@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAPayerRouteImport } from './routes/_authenticated/a-payer'
 import { Route as AuthenticatedARecevoirRouteImport } from './routes/_authenticated/a-recevoir'
+import { Route as AuthenticatedCaisseRouteImport } from './routes/_authenticated/caisse'
 import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
@@ -55,6 +56,11 @@ const AuthenticatedAPayerRoute = AuthenticatedAPayerRouteImport.update({
 const AuthenticatedARecevoirRoute = AuthenticatedARecevoirRouteImport.update({
   id: '/a-recevoir',
   path: '/a-recevoir',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCaisseRoute = AuthenticatedCaisseRouteImport.update({
+  id: '/caisse',
+  path: '/caisse',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedHistoriqueRoute = AuthenticatedHistoriqueRouteImport.update({
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/a-payer': typeof AuthenticatedAPayerRoute
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/plus': typeof AuthenticatedPlusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/a-payer': typeof AuthenticatedAPayerRoute
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/plus': typeof AuthenticatedPlusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/a-payer': typeof AuthenticatedAPayerRoute
   '/_authenticated/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/_authenticated/caisse': typeof AuthenticatedCaisseRoute
   '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/a-payer'
     | '/a-recevoir'
+    | '/caisse'
     | '/historique'
     | '/plus'
     | '/tableau-de-bord'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/a-payer'
     | '/a-recevoir'
+    | '/caisse'
     | '/historique'
     | '/plus'
     | '/tableau-de-bord'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/a-payer'
     | '/_authenticated/a-recevoir'
+    | '/_authenticated/caisse'
     | '/_authenticated/historique'
     | '/_authenticated/plus'
     | '/_authenticated/tableau-de-bord'
@@ -295,6 +307,13 @@ declare module '@tanstack/react-router' {
       path: '/a-recevoir'
       fullPath: '/a-recevoir'
       preLoaderRoute: typeof AuthenticatedARecevoirRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/caisse': {
+      id: '/_authenticated/caisse'
+      path: '/caisse'
+      fullPath: '/caisse'
+      preLoaderRoute: typeof AuthenticatedCaisseRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/historique': {
@@ -387,6 +406,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAPayerRoute: typeof AuthenticatedAPayerRoute
   AuthenticatedARecevoirRoute: typeof AuthenticatedARecevoirRoute
+  AuthenticatedCaisseRoute: typeof AuthenticatedCaisseRoute
   AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
@@ -404,6 +424,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAPayerRoute: AuthenticatedAPayerRoute,
   AuthenticatedARecevoirRoute: AuthenticatedARecevoirRoute,
+  AuthenticatedCaisseRoute: AuthenticatedCaisseRoute,
   AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
