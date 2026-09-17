@@ -17,7 +17,9 @@ import { Route as AuthenticatedAPayerRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedARecevoirRouteImport } from './routes/_authenticated/a-recevoir'
 import { Route as AuthenticatedCaisseRouteImport } from './routes/_authenticated/caisse'
 import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
+import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
+import { Route as AuthenticatedRapportsRouteImport } from './routes/_authenticated/rapports'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as AuthenticatedAchatsIndexRouteImport } from './routes/_authenticated/achats.index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
@@ -68,9 +70,19 @@ const AuthenticatedHistoriqueRoute = AuthenticatedHistoriqueRouteImport.update({
   path: '/historique',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedParametresRoute = AuthenticatedParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPlusRoute = AuthenticatedPlusRouteImport.update({
   id: '/plus',
   path: '/plus',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRapportsRoute = AuthenticatedRapportsRouteImport.update({
+  id: '/rapports',
+  path: '/rapports',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTableauDeBordRoute =
@@ -140,7 +152,9 @@ export interface FileRoutesByFullPath {
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
   '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
+  '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
+  '/rapports': typeof AuthenticatedRapportsRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
@@ -160,7 +174,9 @@ export interface FileRoutesByTo {
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
   '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
+  '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
+  '/rapports': typeof AuthenticatedRapportsRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
@@ -182,7 +198,9 @@ export interface FileRoutesById {
   '/_authenticated/a-recevoir': typeof AuthenticatedARecevoirRoute
   '/_authenticated/caisse': typeof AuthenticatedCaisseRoute
   '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
+  '/_authenticated/parametres': typeof AuthenticatedParametresRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
+  '/_authenticated/rapports': typeof AuthenticatedRapportsRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
   '/_authenticated/ventes/$id': typeof AuthenticatedVentesIdRoute
@@ -204,7 +222,9 @@ export interface FileRouteTypes {
     | '/a-recevoir'
     | '/caisse'
     | '/historique'
+    | '/parametres'
     | '/plus'
+    | '/rapports'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
@@ -224,7 +244,9 @@ export interface FileRouteTypes {
     | '/a-recevoir'
     | '/caisse'
     | '/historique'
+    | '/parametres'
     | '/plus'
+    | '/rapports'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
@@ -245,7 +267,9 @@ export interface FileRouteTypes {
     | '/_authenticated/a-recevoir'
     | '/_authenticated/caisse'
     | '/_authenticated/historique'
+    | '/_authenticated/parametres'
     | '/_authenticated/plus'
+    | '/_authenticated/rapports'
     | '/_authenticated/tableau-de-bord'
     | '/_authenticated/clients/$id'
     | '/_authenticated/ventes/$id'
@@ -323,11 +347,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHistoriqueRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/parametres': {
+      id: '/_authenticated/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof AuthenticatedParametresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/plus': {
       id: '/_authenticated/plus'
       path: '/plus'
       fullPath: '/plus'
       preLoaderRoute: typeof AuthenticatedPlusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/rapports': {
+      id: '/_authenticated/rapports'
+      path: '/rapports'
+      fullPath: '/rapports'
+      preLoaderRoute: typeof AuthenticatedRapportsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/tableau-de-bord': {
@@ -408,7 +446,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedARecevoirRoute: typeof AuthenticatedARecevoirRoute
   AuthenticatedCaisseRoute: typeof AuthenticatedCaisseRoute
   AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
+  AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
+  AuthenticatedRapportsRoute: typeof AuthenticatedRapportsRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
   AuthenticatedVentesIdRoute: typeof AuthenticatedVentesIdRoute
@@ -426,7 +466,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedARecevoirRoute: AuthenticatedARecevoirRoute,
   AuthenticatedCaisseRoute: AuthenticatedCaisseRoute,
   AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
+  AuthenticatedParametresRoute: AuthenticatedParametresRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
+  AuthenticatedRapportsRoute: AuthenticatedRapportsRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
   AuthenticatedVentesIdRoute: AuthenticatedVentesIdRoute,
