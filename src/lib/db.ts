@@ -1,6 +1,7 @@
 /** Accès données (Lovable Cloud) + hooks React Query partagés. */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { enqueue, isQueueable } from "@/lib/offline";
 
 export const qk = {
   profile: ["profile"] as const,
