@@ -98,6 +98,7 @@ function ProductsPage() {
       <div className="space-y-3 px-4">
         {filtered.map((p) => {
           const margin = num(p.sale_price) - num(p.cost_price);
+          const agg = totals.get(p.id);
           const low = p.track_stock && num(p.stock) <= num(p.min_stock);
           const out = p.track_stock && num(p.stock) <= 0;
           return (
@@ -115,11 +116,19 @@ function ProductsPage() {
                   {p.track_stock ? `${formatQty(p.stock)} ${p.unit} en stock` : "Service (sans stock)"}
                   {p.category ? ` · ${p.category}` : ""}
                 </p>
-                <div className="mt-1.5 flex gap-2">
+                <div className="mt-1.5 flex flex-wrap gap-2">
                   {out ? <StatusPill label="Rupture" tone="destructive" /> : null}
                   {!out && low ? <StatusPill label="Stock faible" tone="warning" /> : null}
                   <StatusPill label={`Marge ${formatMoney(margin)}`} tone="primary" />
+                  {agg ? (
+                    <StatusPill label={`Bénéfice total ${formatMoney(agg.profit)}`} tone="success" />
+                  ) : null}
                 </div>
+                {agg ? (
+                  <p className="mt-1 text-xs text-muted-foreground tabular">
+                    {formatQty(agg.qty)} vendu(s) · coût total {formatMoney(agg.cost)}
+                  </p>
+                ) : null}
               </div>
               <div className="text-right">
                 <p className="font-semibold tabular">{formatMoney(p.sale_price)}</p>
