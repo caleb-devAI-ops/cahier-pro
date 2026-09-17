@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Package, Plus, Search } from "lucide-react";
-import { useProducts } from "@/lib/db";
+import { useProducts, useSaleItems } from "@/lib/db";
 import { formatMoney, formatQty, num } from "@/lib/format";
 import { ProductDialog, type ProductRecord } from "@/components/forms";
 import { EmptyState, ErrorState, LoadingList, PageHeader, StatusPill } from "@/components/ui-bits";
@@ -23,9 +23,30 @@ export const Route = createFileRoute("/_authenticated/produits/")({
 function ProductsPage() {
   const { nouveau } = Route.useSearch();
   const { data = [], isLoading, error } = useProducts();
+  const { data: saleItems = [] } = useSaleItems();
   const [open, setOpen] = useState(nouveau === "1");
   const [editing, setEditing] = useState<ProductRecord | null>(null);
   const [q, setQ] = useState("");
+
+  /** Bénéfice total cumulé par produit : Σ (prix de vente − prix d'achat) × quantité nette vendue. */
+  const totals = useMemo(() => {
+    const map = new Map<string, { qty: number; cost: number; profit: number }>();
+    for (const it of saleItems as Array<Record<string, unknown>>) {
+      const sale = it["sales"] as { status?: string } | null;
+      if (sale?.status === "cancelled") continue;
+      const id = String(it["product_id"] ?? "");
+      if (!id) continue;
+      const qty = num(it["quantity"]) - num(it["returned_quantity"]);
+      if (qty <= 0) continue;
+      const entry = map.get(id) ?? { qty: 0, cost: 0, profit: 0 };
+      entry.qty += qty;
+      entry.cost += qty * num(it["unit_cost"]);
+      entry.profit += qty * (num(it["unit_price"]) - num(it["unit_cost"]));
+      map.set(id, entry);
+    }
+    return map;
+  }, [saleItems]);
+
 
   const filtered = data.filter((p) =>
     `${p.name} ${p.sku ?? ""} ${p.category ?? ""}`.toLowerCase().includes(q.toLowerCase()),
@@ -77,6 +98,7 @@ function ProductsPage() {
       <div className="space-y-3 px-4">
         {filtered.map((p) => {
           const margin = num(p.sale_price) - num(p.cost_price);
+          const agg = totals.get(p.id);
           const low = p.track_stock && num(p.stock) <= num(p.min_stock);
           const out = p.track_stock && num(p.stock) <= 0;
           return (
@@ -94,11 +116,19 @@ function ProductsPage() {
                   {p.track_stock ? `${formatQty(p.stock)} ${p.unit} en stock` : "Service (sans stock)"}
                   {p.category ? ` · ${p.category}` : ""}
                 </p>
-                <div className="mt-1.5 flex gap-2">
+                <div className="mt-1.5 flex flex-wrap gap-2">
                   {out ? <StatusPill label="Rupture" tone="destructive" /> : null}
                   {!out && low ? <StatusPill label="Stock faible" tone="warning" /> : null}
                   <StatusPill label={`Marge ${formatMoney(margin)}`} tone="primary" />
+                  {agg ? (
+                    <StatusPill label={`Bénéfice total ${formatMoney(agg.profit)}`} tone="success" />
+                  ) : null}
                 </div>
+                {agg ? (
+                  <p className="mt-1 text-xs text-muted-foreground tabular">
+                    {formatQty(agg.qty)} vendu(s) · coût total {formatMoney(agg.cost)}
+                  </p>
+                ) : null}
               </div>
               <div className="text-right">
                 <p className="font-semibold tabular">{formatMoney(p.sale_price)}</p>

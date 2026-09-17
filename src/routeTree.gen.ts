@@ -13,13 +13,19 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAPayerRouteImport } from './routes/_authenticated/a-payer'
 import { Route as AuthenticatedARecevoirRouteImport } from './routes/_authenticated/a-recevoir'
+import { Route as AuthenticatedCaisseRouteImport } from './routes/_authenticated/caisse'
 import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
+import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
+import { Route as AuthenticatedRapportsRouteImport } from './routes/_authenticated/rapports'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as AuthenticatedAchatsIndexRouteImport } from './routes/_authenticated/achats.index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
 import { Route as AuthenticatedClientsIdRouteImport } from './routes/_authenticated/clients.$id'
 import { Route as AuthenticatedDepensesIndexRouteImport } from './routes/_authenticated/depenses.index'
+import { Route as AuthenticatedFournisseursIndexRouteImport } from './routes/_authenticated/fournisseurs.index'
 import { Route as AuthenticatedProduitsIndexRouteImport } from './routes/_authenticated/produits.index'
 import { Route as AuthenticatedVentesIndexRouteImport } from './routes/_authenticated/ventes.index'
 import { Route as AuthenticatedVentesIdRouteImport } from './routes/_authenticated/ventes.$id'
@@ -44,9 +50,19 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAPayerRoute = AuthenticatedAPayerRouteImport.update({
+  id: '/a-payer',
+  path: '/a-payer',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedARecevoirRoute = AuthenticatedARecevoirRouteImport.update({
   id: '/a-recevoir',
   path: '/a-recevoir',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCaisseRoute = AuthenticatedCaisseRouteImport.update({
+  id: '/caisse',
+  path: '/caisse',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedHistoriqueRoute = AuthenticatedHistoriqueRouteImport.update({
@@ -54,15 +70,31 @@ const AuthenticatedHistoriqueRoute = AuthenticatedHistoriqueRouteImport.update({
   path: '/historique',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedParametresRoute = AuthenticatedParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPlusRoute = AuthenticatedPlusRouteImport.update({
   id: '/plus',
   path: '/plus',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRapportsRoute = AuthenticatedRapportsRouteImport.update({
+  id: '/rapports',
+  path: '/rapports',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTableauDeBordRoute =
   AuthenticatedTableauDeBordRouteImport.update({
     id: '/tableau-de-bord',
     path: '/tableau-de-bord',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAchatsIndexRoute =
+  AuthenticatedAchatsIndexRouteImport.update({
+    id: '/achats/',
+    path: '/achats/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedClientsIndexRoute =
@@ -80,6 +112,12 @@ const AuthenticatedDepensesIndexRoute =
   AuthenticatedDepensesIndexRouteImport.update({
     id: '/depenses/',
     path: '/depenses/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFournisseursIndexRoute =
+  AuthenticatedFournisseursIndexRouteImport.update({
+    id: '/fournisseurs/',
+    path: '/fournisseurs/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedProduitsIndexRoute =
@@ -110,15 +148,21 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/a-payer': typeof AuthenticatedAPayerRoute
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
+  '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
+  '/rapports': typeof AuthenticatedRapportsRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/achats/': typeof AuthenticatedAchatsIndexRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/depenses/': typeof AuthenticatedDepensesIndexRoute
+  '/fournisseurs/': typeof AuthenticatedFournisseursIndexRoute
   '/produits/': typeof AuthenticatedProduitsIndexRoute
   '/ventes/': typeof AuthenticatedVentesIndexRoute
 }
@@ -126,15 +170,21 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/a-payer': typeof AuthenticatedAPayerRoute
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
+  '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
+  '/rapports': typeof AuthenticatedRapportsRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/achats': typeof AuthenticatedAchatsIndexRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/depenses': typeof AuthenticatedDepensesIndexRoute
+  '/fournisseurs': typeof AuthenticatedFournisseursIndexRoute
   '/produits': typeof AuthenticatedProduitsIndexRoute
   '/ventes': typeof AuthenticatedVentesIndexRoute
 }
@@ -144,15 +194,21 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/a-payer': typeof AuthenticatedAPayerRoute
   '/_authenticated/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/_authenticated/caisse': typeof AuthenticatedCaisseRoute
   '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
+  '/_authenticated/parametres': typeof AuthenticatedParametresRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
+  '/_authenticated/rapports': typeof AuthenticatedRapportsRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
   '/_authenticated/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/_authenticated/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/_authenticated/achats/': typeof AuthenticatedAchatsIndexRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/depenses/': typeof AuthenticatedDepensesIndexRoute
+  '/_authenticated/fournisseurs/': typeof AuthenticatedFournisseursIndexRoute
   '/_authenticated/produits/': typeof AuthenticatedProduitsIndexRoute
   '/_authenticated/ventes/': typeof AuthenticatedVentesIndexRoute
 }
@@ -162,15 +218,21 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/a-payer'
     | '/a-recevoir'
+    | '/caisse'
     | '/historique'
+    | '/parametres'
     | '/plus'
+    | '/rapports'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
+    | '/achats/'
     | '/clients/'
     | '/depenses/'
+    | '/fournisseurs/'
     | '/produits/'
     | '/ventes/'
   fileRoutesByTo: FileRoutesByTo
@@ -178,15 +240,21 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/a-payer'
     | '/a-recevoir'
+    | '/caisse'
     | '/historique'
+    | '/parametres'
     | '/plus'
+    | '/rapports'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
+    | '/achats'
     | '/clients'
     | '/depenses'
+    | '/fournisseurs'
     | '/produits'
     | '/ventes'
   id:
@@ -195,15 +263,21 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/a-payer'
     | '/_authenticated/a-recevoir'
+    | '/_authenticated/caisse'
     | '/_authenticated/historique'
+    | '/_authenticated/parametres'
     | '/_authenticated/plus'
+    | '/_authenticated/rapports'
     | '/_authenticated/tableau-de-bord'
     | '/_authenticated/clients/$id'
     | '/_authenticated/ventes/$id'
     | '/_authenticated/ventes/nouvelle'
+    | '/_authenticated/achats/'
     | '/_authenticated/clients/'
     | '/_authenticated/depenses/'
+    | '/_authenticated/fournisseurs/'
     | '/_authenticated/produits/'
     | '/_authenticated/ventes/'
   fileRoutesById: FileRoutesById
@@ -245,11 +319,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/a-payer': {
+      id: '/_authenticated/a-payer'
+      path: '/a-payer'
+      fullPath: '/a-payer'
+      preLoaderRoute: typeof AuthenticatedAPayerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/a-recevoir': {
       id: '/_authenticated/a-recevoir'
       path: '/a-recevoir'
       fullPath: '/a-recevoir'
       preLoaderRoute: typeof AuthenticatedARecevoirRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/caisse': {
+      id: '/_authenticated/caisse'
+      path: '/caisse'
+      fullPath: '/caisse'
+      preLoaderRoute: typeof AuthenticatedCaisseRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/historique': {
@@ -259,6 +347,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHistoriqueRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/parametres': {
+      id: '/_authenticated/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof AuthenticatedParametresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/plus': {
       id: '/_authenticated/plus'
       path: '/plus'
@@ -266,11 +361,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlusRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/rapports': {
+      id: '/_authenticated/rapports'
+      path: '/rapports'
+      fullPath: '/rapports'
+      preLoaderRoute: typeof AuthenticatedRapportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tableau-de-bord': {
       id: '/_authenticated/tableau-de-bord'
       path: '/tableau-de-bord'
       fullPath: '/tableau-de-bord'
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/achats/': {
+      id: '/_authenticated/achats/'
+      path: '/achats'
+      fullPath: '/achats/'
+      preLoaderRoute: typeof AuthenticatedAchatsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/clients/': {
@@ -292,6 +401,13 @@ declare module '@tanstack/react-router' {
       path: '/depenses'
       fullPath: '/depenses/'
       preLoaderRoute: typeof AuthenticatedDepensesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/fournisseurs/': {
+      id: '/_authenticated/fournisseurs/'
+      path: '/fournisseurs'
+      fullPath: '/fournisseurs/'
+      preLoaderRoute: typeof AuthenticatedFournisseursIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/produits/': {
@@ -326,29 +442,41 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAPayerRoute: typeof AuthenticatedAPayerRoute
   AuthenticatedARecevoirRoute: typeof AuthenticatedARecevoirRoute
+  AuthenticatedCaisseRoute: typeof AuthenticatedCaisseRoute
   AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
+  AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
+  AuthenticatedRapportsRoute: typeof AuthenticatedRapportsRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
   AuthenticatedVentesIdRoute: typeof AuthenticatedVentesIdRoute
   AuthenticatedVentesNouvelleRoute: typeof AuthenticatedVentesNouvelleRoute
+  AuthenticatedAchatsIndexRoute: typeof AuthenticatedAchatsIndexRoute
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
   AuthenticatedDepensesIndexRoute: typeof AuthenticatedDepensesIndexRoute
+  AuthenticatedFournisseursIndexRoute: typeof AuthenticatedFournisseursIndexRoute
   AuthenticatedProduitsIndexRoute: typeof AuthenticatedProduitsIndexRoute
   AuthenticatedVentesIndexRoute: typeof AuthenticatedVentesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAPayerRoute: AuthenticatedAPayerRoute,
   AuthenticatedARecevoirRoute: AuthenticatedARecevoirRoute,
+  AuthenticatedCaisseRoute: AuthenticatedCaisseRoute,
   AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
+  AuthenticatedParametresRoute: AuthenticatedParametresRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
+  AuthenticatedRapportsRoute: AuthenticatedRapportsRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
   AuthenticatedVentesIdRoute: AuthenticatedVentesIdRoute,
   AuthenticatedVentesNouvelleRoute: AuthenticatedVentesNouvelleRoute,
+  AuthenticatedAchatsIndexRoute: AuthenticatedAchatsIndexRoute,
   AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
   AuthenticatedDepensesIndexRoute: AuthenticatedDepensesIndexRoute,
+  AuthenticatedFournisseursIndexRoute: AuthenticatedFournisseursIndexRoute,
   AuthenticatedProduitsIndexRoute: AuthenticatedProduitsIndexRoute,
   AuthenticatedVentesIndexRoute: AuthenticatedVentesIndexRoute,
 }

@@ -15,6 +15,13 @@
       "when": 1789561061949,
       "tag": "0001_cahier_pro_business_functions",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789678044094,
+      "tag": "0002_reset_history",
+      "breakpoints": true
     }
   ]
 }

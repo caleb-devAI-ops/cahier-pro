@@ -888,6 +888,7 @@ export type Database = {
         }
         Returns: Json
       }
+      reset_history: { Args: { p_reset_stock?: boolean }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

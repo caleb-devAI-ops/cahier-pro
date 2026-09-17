@@ -1,6 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Printer, Share2, Undo2, Wallet } from "lucide-react";
+import { Download, Printer, Share2, Undo2, Wallet } from "lucide-react";
+import {
+  downloadReceiptPdf,
+  printReceiptPdf,
+  receiptFromSale,
+  shareReceiptPdf,
+} from "@/lib/receipt-pdf";
 import { toast } from "sonner";
 import { useProfile, useRpc, useSale } from "@/lib/db";
 import { saleDue, saleStatusLabel } from "@/lib/finance";
@@ -119,20 +125,26 @@ function SaleDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 print:hidden">
+      <div className="grid grid-cols-4 gap-2 print:hidden">
         <button
-          onClick={() => window.print()}
+          onClick={() => printReceiptPdf(receiptFromSale(sale as never))}
           className="flex flex-col items-center gap-1 rounded-2xl bg-secondary py-3 text-xs font-medium"
         >
           <Printer className="size-4" /> Imprimer
         </button>
         <button
+          onClick={() => downloadReceiptPdf(receiptFromSale(sale as never))}
+          className="flex flex-col items-center gap-1 rounded-2xl bg-secondary py-3 text-xs font-medium"
+        >
+          <Download className="size-4" /> PDF
+        </button>
+        <button
           onClick={async () => {
-            const text = `Reçu ${sale.number} — ${formatMoney(sale.total)} — ${profile?.business_name ?? ""}`;
-            if (navigator.share) await navigator.share({ title: "Reçu", text });
-            else {
-              await navigator.clipboard.writeText(text);
-              toast.success("Reçu copié");
+            try {
+              const res = await shareReceiptPdf(receiptFromSale(sale as never));
+              if (res === "downloaded") toast.success("Reçu PDF téléchargé");
+            } catch {
+              toast.error("Partage annulé");
             }
           }}
           className="flex flex-col items-center gap-1 rounded-2xl bg-secondary py-3 text-xs font-medium"

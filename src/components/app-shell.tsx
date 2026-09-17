@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { OfflineBar } from "@/components/offline-bar";
 
 const NAV = [
   { to: "/tableau-de-bord", label: "Accueil", icon: Home },
@@ -39,6 +40,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-3xl bg-background pb-28">
+      <OfflineBar />
       {children}
 
       {open ? (
