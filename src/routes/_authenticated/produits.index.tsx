@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Package, Plus, Search } from "lucide-react";
-import { useProducts } from "@/lib/db";
+import { useProducts, useSaleItems } from "@/lib/db";
 import { formatMoney, formatQty, num } from "@/lib/format";
 import { ProductDialog, type ProductRecord } from "@/components/forms";
 import { EmptyState, ErrorState, LoadingList, PageHeader, StatusPill } from "@/components/ui-bits";
@@ -23,9 +23,30 @@ export const Route = createFileRoute("/_authenticated/produits/")({
 function ProductsPage() {
   const { nouveau } = Route.useSearch();
   const { data = [], isLoading, error } = useProducts();
+  const { data: saleItems = [] } = useSaleItems();
   const [open, setOpen] = useState(nouveau === "1");
   const [editing, setEditing] = useState<ProductRecord | null>(null);
   const [q, setQ] = useState("");
+
+  /** Bénéfice total cumulé par produit : Σ (prix de vente − prix d'achat) × quantité nette vendue. */
+  const totals = useMemo(() => {
+    const map = new Map<string, { qty: number; cost: number; profit: number }>();
+    for (const it of saleItems as Array<Record<string, unknown>>) {
+      const sale = it["sales"] as { status?: string } | null;
+      if (sale?.status === "cancelled") continue;
+      const id = String(it["product_id"] ?? "");
+      if (!id) continue;
+      const qty = num(it["quantity"]) - num(it["returned_quantity"]);
+      if (qty <= 0) continue;
+      const entry = map.get(id) ?? { qty: 0, cost: 0, profit: 0 };
+      entry.qty += qty;
+      entry.cost += qty * num(it["unit_cost"]);
+      entry.profit += qty * (num(it["unit_price"]) - num(it["unit_cost"]));
+      map.set(id, entry);
+    }
+    return map;
+  }, [saleItems]);
+
 
   const filtered = data.filter((p) =>
     `${p.name} ${p.sku ?? ""} ${p.category ?? ""}`.toLowerCase().includes(q.toLowerCase()),
