@@ -31,7 +31,7 @@ export function OfflineBar() {
   return (
     <div
       className={`sticky top-0 z-40 flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold ${
-        online ? "bg-warning/15 text-warning-foreground" : "bg-destructive/10 text-destructive"
+        online ? "bg-warning/15 text-foreground" : "bg-destructive/10 text-destructive"
       }`}
     >
       {online ? <RefreshCw className="size-3.5 animate-spin" /> : <CloudOff className="size-3.5" />}
