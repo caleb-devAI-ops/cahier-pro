@@ -119,7 +119,7 @@ function SuppliersPage() {
         onClose={() => setPaying(null)}
         direction="out"
         supplierId={paying?.id ?? null}
-        remaining={paying?.due}
+        remaining={paying?.due ?? 0}
         title="Payer le fournisseur"
       />
     </div>

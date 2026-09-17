@@ -96,7 +96,7 @@ function PayablesPage() {
         direction="out"
         purchaseId={paying?.purchaseId ?? null}
         supplierId={paying?.supplierId ?? null}
-        remaining={paying?.due}
+        remaining={paying?.due ?? 0}
         title="Payer le fournisseur"
       />
     </div>
