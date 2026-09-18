@@ -37,7 +37,7 @@ function RemindersPage() {
   const { data: suppliers = [] } = useSuppliers();
 
   const clientDebts = useMemo(() => {
-    const map = new Map<string, { name: string; phone?: string; due: number; oldest: string }>();
+    const map = new Map<string, { name: string; phone?: string | undefined; due: number; oldest: string }>();
     for (const s of sales as Array<Record<string, any>>) {
       if (s["status"] === "cancelled") continue;
       const due = saleDue(s as never);
@@ -60,7 +60,7 @@ function RemindersPage() {
   }, [sales, customers, delay]);
 
   const supplierDebts = useMemo(() => {
-    const map = new Map<string, { name: string; phone?: string; due: number; oldest: string }>();
+    const map = new Map<string, { name: string; phone?: string | undefined; due: number; oldest: string }>();
     for (const p of purchases as Array<Record<string, any>>) {
       const due = num(p["total"]) - num(p["paid"]);
       if (due <= 0.009) continue;
