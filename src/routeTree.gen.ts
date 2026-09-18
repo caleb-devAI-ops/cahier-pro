@@ -20,6 +20,7 @@ import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authentic
 import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
 import { Route as AuthenticatedRapportsRouteImport } from './routes/_authenticated/rapports'
+import { Route as AuthenticatedRechercheRouteImport } from './routes/_authenticated/recherche'
 import { Route as AuthenticatedRecusRouteImport } from './routes/_authenticated/recus'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as AuthenticatedAchatsIndexRouteImport } from './routes/_authenticated/achats.index'
@@ -85,6 +86,11 @@ const AuthenticatedPlusRoute = AuthenticatedPlusRouteImport.update({
 const AuthenticatedRapportsRoute = AuthenticatedRapportsRouteImport.update({
   id: '/rapports',
   path: '/rapports',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRechercheRoute = AuthenticatedRechercheRouteImport.update({
+  id: '/recherche',
+  path: '/recherche',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRecusRoute = AuthenticatedRecusRouteImport.update({
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
   '/rapports': typeof AuthenticatedRapportsRoute
+  '/recherche': typeof AuthenticatedRechercheRoute
   '/recus': typeof AuthenticatedRecusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
   '/rapports': typeof AuthenticatedRapportsRoute
+  '/recherche': typeof AuthenticatedRechercheRoute
   '/recus': typeof AuthenticatedRecusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/_authenticated/parametres': typeof AuthenticatedParametresRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
   '/_authenticated/rapports': typeof AuthenticatedRapportsRoute
+  '/_authenticated/recherche': typeof AuthenticatedRechercheRoute
   '/_authenticated/recus': typeof AuthenticatedRecusRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
@@ -244,6 +253,7 @@ export interface FileRouteTypes {
     | '/parametres'
     | '/plus'
     | '/rapports'
+    | '/recherche'
     | '/recus'
     | '/tableau-de-bord'
     | '/clients/$id'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/parametres'
     | '/plus'
     | '/rapports'
+    | '/recherche'
     | '/recus'
     | '/tableau-de-bord'
     | '/clients/$id'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/_authenticated/parametres'
     | '/_authenticated/plus'
     | '/_authenticated/rapports'
+    | '/_authenticated/recherche'
     | '/_authenticated/recus'
     | '/_authenticated/tableau-de-bord'
     | '/_authenticated/clients/$id'
@@ -393,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRapportsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/recherche': {
+      id: '/_authenticated/recherche'
+      path: '/recherche'
+      fullPath: '/recherche'
+      preLoaderRoute: typeof AuthenticatedRechercheRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/recus': {
       id: '/_authenticated/recus'
       path: '/recus'
@@ -488,6 +507,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
   AuthenticatedRapportsRoute: typeof AuthenticatedRapportsRoute
+  AuthenticatedRechercheRoute: typeof AuthenticatedRechercheRoute
   AuthenticatedRecusRoute: typeof AuthenticatedRecusRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
@@ -510,6 +530,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedParametresRoute: AuthenticatedParametresRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
   AuthenticatedRapportsRoute: AuthenticatedRapportsRoute,
+  AuthenticatedRechercheRoute: AuthenticatedRechercheRoute,
   AuthenticatedRecusRoute: AuthenticatedRecusRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
