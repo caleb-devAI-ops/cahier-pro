@@ -99,8 +99,8 @@ function ReportsPage() {
   const dep = totalExpenses(pExpenses as never);
   const net = netProfit(pSales as never, pExpenses as never);
 
-  function exportCsv() {
-    const rows: (string | number)[][] = [
+  function reportRows(): (string | number)[][] {
+    return [
       ["Rapport", range.label],
       [],
       ["Indicateur", "Montant (HTG)"],
@@ -117,7 +117,16 @@ function ReportsPage() {
       ["Produit", "Quantité vendue", "Ventes", "Coût", "Bénéfice"],
       ...productProfit.map((p) => [p.name, p.qty, p.revenue, p.cost, p.profit]),
     ];
-    downloadCsv(`rapport-${range.label.toLowerCase().replace(/\s+/g, "-")}.csv`, rows);
+  }
+
+  const baseName = `rapport-${range.label.toLowerCase().replace(/\s+/g, "-")}`;
+
+  function exportCsv() {
+    downloadCsv(`${baseName}.csv`, reportRows());
+  }
+
+  async function exportXlsx() {
+    await downloadXlsx(`${baseName}.xlsx`, reportRows(), "Rapport");
   }
 
   return (
