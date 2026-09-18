@@ -20,6 +20,7 @@ import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authentic
 import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
 import { Route as AuthenticatedRapportsRouteImport } from './routes/_authenticated/rapports'
+import { Route as AuthenticatedRecusRouteImport } from './routes/_authenticated/recus'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 import { Route as AuthenticatedAchatsIndexRouteImport } from './routes/_authenticated/achats.index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
@@ -30,6 +31,7 @@ import { Route as AuthenticatedProduitsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedVentesIndexRouteImport } from './routes/_authenticated/ventes.index'
 import { Route as AuthenticatedVentesIdRouteImport } from './routes/_authenticated/ventes.$id'
 import { Route as AuthenticatedVentesNouvelleRouteImport } from './routes/_authenticated/ventes.nouvelle'
+import { Route as AuthenticatedVerifierNumberRouteImport } from './routes/_authenticated/verifier.$number'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -83,6 +85,11 @@ const AuthenticatedPlusRoute = AuthenticatedPlusRouteImport.update({
 const AuthenticatedRapportsRoute = AuthenticatedRapportsRouteImport.update({
   id: '/rapports',
   path: '/rapports',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRecusRoute = AuthenticatedRecusRouteImport.update({
+  id: '/recus',
+  path: '/recus',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTableauDeBordRoute =
@@ -143,6 +150,12 @@ const AuthenticatedVentesNouvelleRoute =
     path: '/ventes/nouvelle',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedVerifierNumberRoute =
+  AuthenticatedVerifierNumberRouteImport.update({
+    id: '/verifier/$number',
+    path: '/verifier/$number',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -155,10 +168,12 @@ export interface FileRoutesByFullPath {
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
   '/rapports': typeof AuthenticatedRapportsRoute
+  '/recus': typeof AuthenticatedRecusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/verifier/$number': typeof AuthenticatedVerifierNumberRoute
   '/achats/': typeof AuthenticatedAchatsIndexRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/depenses/': typeof AuthenticatedDepensesIndexRoute
@@ -177,10 +192,12 @@ export interface FileRoutesByTo {
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
   '/rapports': typeof AuthenticatedRapportsRoute
+  '/recus': typeof AuthenticatedRecusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/verifier/$number': typeof AuthenticatedVerifierNumberRoute
   '/achats': typeof AuthenticatedAchatsIndexRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/depenses': typeof AuthenticatedDepensesIndexRoute
@@ -201,10 +218,12 @@ export interface FileRoutesById {
   '/_authenticated/parametres': typeof AuthenticatedParametresRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
   '/_authenticated/rapports': typeof AuthenticatedRapportsRoute
+  '/_authenticated/recus': typeof AuthenticatedRecusRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
   '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
   '/_authenticated/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/_authenticated/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
+  '/_authenticated/verifier/$number': typeof AuthenticatedVerifierNumberRoute
   '/_authenticated/achats/': typeof AuthenticatedAchatsIndexRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/depenses/': typeof AuthenticatedDepensesIndexRoute
@@ -225,10 +244,12 @@ export interface FileRouteTypes {
     | '/parametres'
     | '/plus'
     | '/rapports'
+    | '/recus'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
+    | '/verifier/$number'
     | '/achats/'
     | '/clients/'
     | '/depenses/'
@@ -247,10 +268,12 @@ export interface FileRouteTypes {
     | '/parametres'
     | '/plus'
     | '/rapports'
+    | '/recus'
     | '/tableau-de-bord'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
+    | '/verifier/$number'
     | '/achats'
     | '/clients'
     | '/depenses'
@@ -270,10 +293,12 @@ export interface FileRouteTypes {
     | '/_authenticated/parametres'
     | '/_authenticated/plus'
     | '/_authenticated/rapports'
+    | '/_authenticated/recus'
     | '/_authenticated/tableau-de-bord'
     | '/_authenticated/clients/$id'
     | '/_authenticated/ventes/$id'
     | '/_authenticated/ventes/nouvelle'
+    | '/_authenticated/verifier/$number'
     | '/_authenticated/achats/'
     | '/_authenticated/clients/'
     | '/_authenticated/depenses/'
@@ -368,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRapportsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/recus': {
+      id: '/_authenticated/recus'
+      path: '/recus'
+      fullPath: '/recus'
+      preLoaderRoute: typeof AuthenticatedRecusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tableau-de-bord': {
       id: '/_authenticated/tableau-de-bord'
       path: '/tableau-de-bord'
@@ -438,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVentesNouvelleRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/verifier/$number': {
+      id: '/_authenticated/verifier/$number'
+      path: '/verifier/$number'
+      fullPath: '/verifier/$number'
+      preLoaderRoute: typeof AuthenticatedVerifierNumberRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -449,10 +488,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
   AuthenticatedRapportsRoute: typeof AuthenticatedRapportsRoute
+  AuthenticatedRecusRoute: typeof AuthenticatedRecusRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
   AuthenticatedVentesIdRoute: typeof AuthenticatedVentesIdRoute
   AuthenticatedVentesNouvelleRoute: typeof AuthenticatedVentesNouvelleRoute
+  AuthenticatedVerifierNumberRoute: typeof AuthenticatedVerifierNumberRoute
   AuthenticatedAchatsIndexRoute: typeof AuthenticatedAchatsIndexRoute
   AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
   AuthenticatedDepensesIndexRoute: typeof AuthenticatedDepensesIndexRoute
@@ -469,10 +510,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedParametresRoute: AuthenticatedParametresRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
   AuthenticatedRapportsRoute: AuthenticatedRapportsRoute,
+  AuthenticatedRecusRoute: AuthenticatedRecusRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
   AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
   AuthenticatedVentesIdRoute: AuthenticatedVentesIdRoute,
   AuthenticatedVentesNouvelleRoute: AuthenticatedVentesNouvelleRoute,
+  AuthenticatedVerifierNumberRoute: AuthenticatedVerifierNumberRoute,
   AuthenticatedAchatsIndexRoute: AuthenticatedAchatsIndexRoute,
   AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
   AuthenticatedDepensesIndexRoute: AuthenticatedDepensesIndexRoute,
