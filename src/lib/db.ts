@@ -196,6 +196,9 @@ export function useInvalidateAll() {
       qk.stock,
       qk.activity,
       qk.returns,
+      ["receipts"] as const,
+      ["sale_items"] as const,
+      ["cash_closures"] as const,
     ].forEach((key) => qc.invalidateQueries({ queryKey: key }));
   };
 }
