@@ -224,6 +224,21 @@ export function useSaleItems() {
   });
 }
 
+/** Ventes complètes (reçus) : client + lignes, pour l'espace Reçus et la recherche. */
+export function useSaleReceipts() {
+  return useQuery({
+    queryKey: ["receipts"],
+    queryFn: () =>
+      unwrap(
+        supabase
+          .from("sales")
+          .select("*, customers(name, phone, whatsapp), sale_items(*)")
+          .order("sale_date", { ascending: false })
+          .limit(500),
+      ),
+  });
+}
+
 export type RpcName =
   | "create_sale"
   | "create_purchase"
