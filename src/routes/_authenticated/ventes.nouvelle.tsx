@@ -37,6 +37,7 @@ function NewSale() {
   const [customerId, setCustomerId] = useState("");
   const [lines, setLines] = useState<Line[]>([]);
   const [discount, setDiscount] = useState("");
+  const [fee, setFee] = useState("");
   const [paid, setPaid] = useState("");
   const [method, setMethod] = useState("especes");
   const [note, setNote] = useState("");
@@ -44,7 +45,7 @@ function NewSale() {
   const [picker, setPicker] = useState("");
 
   const subtotal = round2(lines.reduce((s, l) => s + l.quantity * l.unit_price, 0));
-  const total = round2(subtotal - num(discount));
+  const total = round2(subtotal - num(discount) + num(fee));
   const due = round2(total - num(paid));
   const cost = round2(lines.reduce((s, l) => s + l.quantity * l.unit_cost, 0));
   const margin = round2(total - cost);
@@ -99,6 +100,7 @@ function NewSale() {
         })),
         p_customer_id: customerId || null,
         p_discount: num(discount),
+        p_fee: num(fee),
         p_paid: num(paid),
         p_method: method,
         p_note: note || null,
@@ -210,6 +212,7 @@ function NewSale() {
       )}
 
       <TextField label="Remise (HTG)" value={discount} onChange={setDiscount} type="number" step="0.01" inputMode="decimal" />
+      <TextField label="Frais / livraison (HTG)" value={fee} onChange={setFee} type="number" step="0.01" inputMode="decimal" />
       <TextField label="Montant payé (HTG)" value={paid} onChange={setPaid} type="number" step="0.01" inputMode="decimal" />
       <SelectField label="Mode de paiement" value={method} onChange={setMethod} options={[...PAYMENT_METHODS]} />
       <TextArea label="Note" value={note} onChange={setNote} />
@@ -217,6 +220,7 @@ function NewSale() {
       <div className="card-surface divide-y divide-border">
         <Row label="Sous-total" value={formatMoney(subtotal)} />
         <Row label="Remise" value={`− ${formatMoney(num(discount))}`} />
+        {num(fee) > 0 ? <Row label="Frais / livraison" value={formatMoney(num(fee))} /> : null}
         <Row label="Total" value={formatMoney(total)} strong />
         <Row label="Reste à payer" value={formatMoney(Math.max(0, due))} />
         <Row label="Marge brute estimée" value={formatMoney(margin)} />
