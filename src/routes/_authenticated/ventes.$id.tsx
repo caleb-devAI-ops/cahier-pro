@@ -129,6 +129,16 @@ function SaleDetail() {
         </div>
       </div>
 
+      <button
+        onClick={async () => {
+          const res = await shareReceiptWhatsApp(receipt, receipt.customerPhone);
+          if (res === "whatsapp") toast.success("Reçu téléchargé — joignez-le dans WhatsApp");
+        }}
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-success py-3.5 text-sm font-semibold text-success-foreground print:hidden"
+      >
+        <MessageCircle className="size-4" /> Envoyer le reçu par WhatsApp
+      </button>
+
       <div className="grid grid-cols-4 gap-2 print:hidden">
         <button
           onClick={() => printReceiptPdf(receipt)}
