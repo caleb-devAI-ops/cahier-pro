@@ -19,6 +19,7 @@ import { Route as AuthenticatedCaisseRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
 import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
+import { Route as AuthenticatedRappelsRouteImport } from './routes/_authenticated/rappels'
 import { Route as AuthenticatedRapportsRouteImport } from './routes/_authenticated/rapports'
 import { Route as AuthenticatedRechercheRouteImport } from './routes/_authenticated/recherche'
 import { Route as AuthenticatedRecusRouteImport } from './routes/_authenticated/recus'
@@ -81,6 +82,11 @@ const AuthenticatedParametresRoute = AuthenticatedParametresRouteImport.update({
 const AuthenticatedPlusRoute = AuthenticatedPlusRouteImport.update({
   id: '/plus',
   path: '/plus',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRappelsRoute = AuthenticatedRappelsRouteImport.update({
+  id: '/rappels',
+  path: '/rappels',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedRapportsRoute = AuthenticatedRapportsRouteImport.update({
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
+  '/rappels': typeof AuthenticatedRappelsRoute
   '/rapports': typeof AuthenticatedRapportsRoute
   '/recherche': typeof AuthenticatedRechercheRoute
   '/recus': typeof AuthenticatedRecusRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
+  '/rappels': typeof AuthenticatedRappelsRoute
   '/rapports': typeof AuthenticatedRapportsRoute
   '/recherche': typeof AuthenticatedRechercheRoute
   '/recus': typeof AuthenticatedRecusRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
   '/_authenticated/parametres': typeof AuthenticatedParametresRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
+  '/_authenticated/rappels': typeof AuthenticatedRappelsRoute
   '/_authenticated/rapports': typeof AuthenticatedRapportsRoute
   '/_authenticated/recherche': typeof AuthenticatedRechercheRoute
   '/_authenticated/recus': typeof AuthenticatedRecusRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/historique'
     | '/parametres'
     | '/plus'
+    | '/rappels'
     | '/rapports'
     | '/recherche'
     | '/recus'
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/historique'
     | '/parametres'
     | '/plus'
+    | '/rappels'
     | '/rapports'
     | '/recherche'
     | '/recus'
@@ -303,6 +314,7 @@ export interface FileRouteTypes {
     | '/_authenticated/historique'
     | '/_authenticated/parametres'
     | '/_authenticated/plus'
+    | '/_authenticated/rappels'
     | '/_authenticated/rapports'
     | '/_authenticated/recherche'
     | '/_authenticated/recus'
@@ -396,6 +408,13 @@ declare module '@tanstack/react-router' {
       path: '/plus'
       fullPath: '/plus'
       preLoaderRoute: typeof AuthenticatedPlusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/rappels': {
+      id: '/_authenticated/rappels'
+      path: '/rappels'
+      fullPath: '/rappels'
+      preLoaderRoute: typeof AuthenticatedRappelsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/rapports': {
@@ -506,6 +525,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
+  AuthenticatedRappelsRoute: typeof AuthenticatedRappelsRoute
   AuthenticatedRapportsRoute: typeof AuthenticatedRapportsRoute
   AuthenticatedRechercheRoute: typeof AuthenticatedRechercheRoute
   AuthenticatedRecusRoute: typeof AuthenticatedRecusRoute
@@ -529,6 +549,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
   AuthenticatedParametresRoute: AuthenticatedParametresRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
+  AuthenticatedRappelsRoute: AuthenticatedRappelsRoute,
   AuthenticatedRapportsRoute: AuthenticatedRapportsRoute,
   AuthenticatedRechercheRoute: AuthenticatedRechercheRoute,
   AuthenticatedRecusRoute: AuthenticatedRecusRoute,
