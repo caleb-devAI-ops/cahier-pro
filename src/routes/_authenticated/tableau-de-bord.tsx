@@ -156,11 +156,29 @@ function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <header className="px-4 pt-6">
-        <p className="text-sm text-muted-foreground">
-          {profile.data?.business_name || "Votre commerce"}
-        </p>
-        <h1 className="text-2xl font-semibold tracking-tight">Tableau de bord</h1>
+      <header className="flex items-start justify-between gap-3 px-4 pt-6">
+        <div>
+          <p className="text-sm text-muted-foreground">
+            {profile.data?.business_name || "Votre commerce"}
+          </p>
+          <h1 className="text-2xl font-semibold tracking-tight">Tableau de bord</h1>
+        </div>
+        <div className="flex gap-2">
+          <Link
+            to="/recherche"
+            aria-label="Recherche globale"
+            className="flex size-10 items-center justify-center rounded-full bg-secondary"
+          >
+            <Search className="size-4" />
+          </Link>
+          <Link
+            to="/rappels"
+            aria-label="Rappels de dettes"
+            className="flex size-10 items-center justify-center rounded-full bg-secondary"
+          >
+            <BellRing className="size-4" />
+          </Link>
+        </div>
       </header>
 
       {/* Sélecteur de période */}
