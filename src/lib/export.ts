@@ -22,3 +22,16 @@ export function downloadCsv(filename: string, rows: (string | number)[][]) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+/** Export Excel (.xlsx) du même tableau, pour le comptable. */
+export async function downloadXlsx(
+  filename: string,
+  rows: (string | number)[][],
+  sheetName = "Rapport",
+) {
+  const XLSX = await import("xlsx");
+  const sheet = XLSX.utils.aoa_to_sheet(rows);
+  const book = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(book, sheet, sheetName.slice(0, 31));
+  XLSX.writeFile(book, filename);
+}

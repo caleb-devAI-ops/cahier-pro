@@ -27,6 +27,8 @@ function SettingsPage() {
   const [fullName, setFullName] = useState("");
   const [business, setBusiness] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [opening, setOpening] = useState("");
   const [saving, setSaving] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -38,6 +40,8 @@ function SettingsPage() {
     setFullName(profile.full_name ?? "");
     setBusiness(profile.business_name ?? "");
     setPhone(profile.phone ?? "");
+    setAddress(profile.business_address ?? "");
+    setWhatsapp(profile.business_whatsapp ?? "");
     setOpening(String(profile.opening_cash ?? 0));
   }, [profile]);
 
@@ -54,6 +58,8 @@ function SettingsPage() {
         full_name: fullName || null,
         business_name: business || null,
         phone: phone || null,
+        business_address: address || null,
+        business_whatsapp: whatsapp || null,
         opening_cash: Number(opening) || 0,
       })
       .eq("id", profile.id);
@@ -91,6 +97,8 @@ function SettingsPage() {
         <TextField label="Nom complet" value={fullName} onChange={setFullName} />
         <TextField label="Nom de l'entreprise" value={business} onChange={setBusiness} />
         <TextField label="Téléphone" value={phone} onChange={setPhone} />
+        <TextField label="Adresse / zone du business" value={address} onChange={setAddress} />
+        <TextField label="WhatsApp du business (reçus)" value={whatsapp} onChange={setWhatsapp} />
         <TextField
           label="Solde de caisse initial (HTG)"
           value={opening}

@@ -196,6 +196,9 @@ export function useInvalidateAll() {
       qk.stock,
       qk.activity,
       qk.returns,
+      ["receipts"] as const,
+      ["sale_items"] as const,
+      ["cash_closures"] as const,
     ].forEach((key) => qc.invalidateQueries({ queryKey: key }));
   };
 }
@@ -220,6 +223,21 @@ export function useSaleItems() {
           .from("sale_items")
           .select("*, sales(status, sale_date)")
           .limit(5000),
+      ),
+  });
+}
+
+/** Ventes complètes (reçus) : client + lignes, pour l'espace Reçus et la recherche. */
+export function useSaleReceipts() {
+  return useQuery({
+    queryKey: ["receipts"],
+    queryFn: () =>
+      unwrap(
+        supabase
+          .from("sales")
+          .select("*, customers(name, phone, whatsapp), sale_items(*)")
+          .order("sale_date", { ascending: false })
+          .limit(500),
       ),
   });
 }

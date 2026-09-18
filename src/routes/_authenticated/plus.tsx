@@ -1,6 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   BarChart3,
+  BellRing,
+  ReceiptText,
+  Search,
   ChevronRight,
   Clock,
   HandCoins,
@@ -28,6 +31,14 @@ export const Route = createFileRoute("/_authenticated/plus")({
 });
 
 const GROUPS: { title: string; links: { to: string; label: string; icon: typeof Receipt }[] }[] = [
+  {
+    title: "Ventes et reçus",
+    links: [
+      { to: "/recus", label: "Reçus", icon: ReceiptText },
+      { to: "/recherche", label: "Recherche globale", icon: Search },
+      { to: "/rappels", label: "Rappels de dettes", icon: BellRing },
+    ],
+  },
   {
     title: "Argent",
     links: [

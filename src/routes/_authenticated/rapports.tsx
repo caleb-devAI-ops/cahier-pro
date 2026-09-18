@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Download } from "lucide-react";
+import { Download, FileSpreadsheet } from "lucide-react";
 import {
   useCashTransactions,
   useExpenses,
@@ -24,7 +24,7 @@ import {
 } from "@/lib/finance";
 import { formatMoney, formatQty, num } from "@/lib/format";
 import { PERIOD_OPTIONS, resolvePeriod, type PeriodKey } from "@/lib/periods";
-import { downloadCsv } from "@/lib/export";
+import { downloadCsv, downloadXlsx } from "@/lib/export";
 import { ErrorState, LoadingList, PageHeader, StatCard } from "@/components/ui-bits";
 import { cn } from "@/lib/utils";
 
@@ -99,8 +99,8 @@ function ReportsPage() {
   const dep = totalExpenses(pExpenses as never);
   const net = netProfit(pSales as never, pExpenses as never);
 
-  function exportCsv() {
-    const rows: (string | number)[][] = [
+  function reportRows(): (string | number)[][] {
+    return [
       ["Rapport", range.label],
       [],
       ["Indicateur", "Montant (HTG)"],
@@ -117,7 +117,16 @@ function ReportsPage() {
       ["Produit", "Quantité vendue", "Ventes", "Coût", "Bénéfice"],
       ...productProfit.map((p) => [p.name, p.qty, p.revenue, p.cost, p.profit]),
     ];
-    downloadCsv(`rapport-${range.label.toLowerCase().replace(/\s+/g, "-")}.csv`, rows);
+  }
+
+  const baseName = `rapport-${range.label.toLowerCase().replace(/\s+/g, "-")}`;
+
+  function exportCsv() {
+    downloadCsv(`${baseName}.csv`, reportRows());
+  }
+
+  async function exportXlsx() {
+    await downloadXlsx(`${baseName}.xlsx`, reportRows(), "Rapport");
   }
 
   return (
@@ -126,12 +135,20 @@ function ReportsPage() {
         title="Rapports"
         subtitle={range.label}
         action={
-          <button
-            onClick={exportCsv}
-            className="flex items-center gap-1 rounded-full bg-secondary px-4 py-2.5 text-sm font-semibold"
-          >
-            <Download className="size-4" /> CSV
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={exportCsv}
+              className="flex items-center gap-1 rounded-full bg-secondary px-3.5 py-2.5 text-sm font-semibold"
+            >
+              <Download className="size-4" /> CSV
+            </button>
+            <button
+              onClick={exportXlsx}
+              className="flex items-center gap-1 rounded-full bg-secondary px-3.5 py-2.5 text-sm font-semibold"
+            >
+              <FileSpreadsheet className="size-4" /> Excel
+            </button>
+          </div>
         }
       />
 

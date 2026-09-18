@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Download, Printer, Share2, Undo2, Wallet } from "lucide-react";
+import { Download, MessageCircle, Printer, Share2, Undo2, Wallet } from "lucide-react";
 import {
   downloadReceiptPdf,
   printReceiptPdf,
   receiptFromSale,
   shareReceiptPdf,
+  shareReceiptWhatsApp,
 } from "@/lib/receipt-pdf";
 import { toast } from "sonner";
 import { useProfile, useRpc, useSale } from "@/lib/db";
@@ -44,6 +45,7 @@ function SaleDetail() {
   const items = (sale as { sale_items: Array<Record<string, unknown>> }).sale_items ?? [];
   const customer = (sale as { customers?: { name?: string; phone?: string } | null }).customers;
   const due = saleDue(sale as never);
+  const receipt = receiptFromSale(sale as never, profile as never);
   const status = saleStatusLabel(sale as never);
 
   async function submitReturn(e: React.FormEvent) {
@@ -83,7 +85,8 @@ function SaleDetail() {
           <h1 className="font-display text-xl font-semibold">
             {profile?.business_name || "Mon commerce"}
           </h1>
-          <p className="mt-1 text-xs text-muted-foreground">Reçu {sale.number}</p>
+          <p className="mt-1 text-xs text-muted-foreground">Reçu {receipt.number}</p>
+          <p className="text-xs text-muted-foreground">Vente {sale.number}</p>
           <p className="text-xs text-muted-foreground">{formatDateTime(sale.sale_date)}</p>
         </div>
 
@@ -117,6 +120,7 @@ function SaleDetail() {
         <div className="mt-4 space-y-1.5 border-t border-dashed border-border pt-3 text-sm">
           <Row label="Sous-total" value={formatMoney(sale.subtotal)} />
           <Row label="Remise" value={`− ${formatMoney(sale.discount)}`} />
+          {num(sale.fee) > 0 ? <Row label="Frais / livraison" value={formatMoney(sale.fee)} /> : null}
           <Row label="Total" value={formatMoney(sale.total)} strong />
           <Row label="Payé" value={formatMoney(sale.paid)} />
           {num(sale.refunded) > 0 ? <Row label="Remboursé" value={formatMoney(sale.refunded)} /> : null}
@@ -125,15 +129,25 @@ function SaleDetail() {
         </div>
       </div>
 
+      <button
+        onClick={async () => {
+          const res = await shareReceiptWhatsApp(receipt, receipt.customerPhone);
+          if (res === "whatsapp") toast.success("Reçu téléchargé — joignez-le dans WhatsApp");
+        }}
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-success py-3.5 text-sm font-semibold text-success-foreground print:hidden"
+      >
+        <MessageCircle className="size-4" /> Envoyer le reçu par WhatsApp
+      </button>
+
       <div className="grid grid-cols-4 gap-2 print:hidden">
         <button
-          onClick={() => printReceiptPdf(receiptFromSale(sale as never))}
+          onClick={() => printReceiptPdf(receipt)}
           className="flex flex-col items-center gap-1 rounded-2xl bg-secondary py-3 text-xs font-medium"
         >
           <Printer className="size-4" /> Imprimer
         </button>
         <button
-          onClick={() => downloadReceiptPdf(receiptFromSale(sale as never))}
+          onClick={() => downloadReceiptPdf(receipt)}
           className="flex flex-col items-center gap-1 rounded-2xl bg-secondary py-3 text-xs font-medium"
         >
           <Download className="size-4" /> PDF
@@ -141,7 +155,7 @@ function SaleDetail() {
         <button
           onClick={async () => {
             try {
-              const res = await shareReceiptPdf(receiptFromSale(sale as never));
+              const res = await shareReceiptPdf(receipt);
               if (res === "downloaded") toast.success("Reçu PDF téléchargé");
             } catch {
               toast.error("Partage annulé");

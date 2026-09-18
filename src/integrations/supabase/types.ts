@@ -371,7 +371,9 @@ export type Database = {
       }
       profiles: {
         Row: {
+          business_address: string | null
           business_name: string | null
+          business_whatsapp: string | null
           created_at: string
           currency: string
           date_format: string
@@ -385,7 +387,9 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          business_address?: string | null
           business_name?: string | null
+          business_whatsapp?: string | null
           created_at?: string
           currency?: string
           date_format?: string
@@ -399,7 +403,9 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          business_address?: string | null
           business_name?: string | null
+          business_whatsapp?: string | null
           created_at?: string
           currency?: string
           date_format?: string
@@ -684,11 +690,13 @@ export type Database = {
           created_at: string
           customer_id: string | null
           discount: number
+          fee: number
           id: string
           note: string | null
           number: string
           paid: number
           payment_method: string | null
+          receipt_number: string | null
           refunded: number
           sale_date: string
           status: string
@@ -701,11 +709,13 @@ export type Database = {
           created_at?: string
           customer_id?: string | null
           discount?: number
+          fee?: number
           id?: string
           note?: string | null
           number: string
           paid?: number
           payment_method?: string | null
+          receipt_number?: string | null
           refunded?: number
           sale_date?: string
           status?: string
@@ -718,11 +728,13 @@ export type Database = {
           created_at?: string
           customer_id?: string | null
           discount?: number
+          fee?: number
           id?: string
           note?: string | null
           number?: string
           paid?: number
           payment_method?: string | null
+          receipt_number?: string | null
           refunded?: number
           sale_date?: string
           status?: string
@@ -854,6 +866,7 @@ export type Database = {
           p_allow_negative_stock?: boolean
           p_customer_id?: string
           p_discount?: number
+          p_fee?: number
           p_items: Json
           p_method?: string
           p_note?: string
