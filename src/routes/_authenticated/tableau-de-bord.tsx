@@ -10,7 +10,7 @@ import {
   Tooltip,
   XAxis,
 } from "recharts";
-import { AlertTriangle, ArrowRight, TrendingUp } from "lucide-react";
+import { AlertTriangle, ArrowRight, BellRing, Search, TrendingUp } from "lucide-react";
 import {
   useCashTransactions,
   useCustomers,
