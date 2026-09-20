@@ -43,6 +43,11 @@ function SettingsPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [resetStock, setResetStock] = useState(false);
+  const [backingUp, setBackingUp] = useState(false);
+  const [restoring, setRestoring] = useState(false);
+  const [pending, setPending] = useState<BackupFile | null>(null);
+  const [restoreText, setRestoreText] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!profile) return;
@@ -118,6 +123,65 @@ function SettingsPage() {
         />
         <SubmitButton loading={saving}>Enregistrer</SubmitButton>
       </form>
+
+      <section className="mt-6 px-4">
+        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Sauvegarde des données
+        </h2>
+        <div className="card-surface p-4">
+          <div className="flex items-start gap-3">
+            <DatabaseBackup className="mt-0.5 size-5 text-primary" />
+            <p className="text-xs text-muted-foreground">
+              Téléchargez un fichier contenant toutes vos données (clients, produits, ventes, achats,
+              paiements, dépenses, caisse, stock, historique). Gardez-le en lieu sûr : il permet de tout
+              restaurer si vous changez de téléphone ou perdez vos données.
+            </p>
+          </div>
+          <button
+            onClick={async () => {
+              setBackingUp(true);
+              try {
+                const file = await buildBackup();
+                downloadBackup(file);
+                toast.success(`Sauvegarde téléchargée (${backupTotal(file)} enregistrements)`);
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "Sauvegarde impossible");
+              } finally {
+                setBackingUp(false);
+              }
+            }}
+            disabled={backingUp}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+          >
+            <Download className="size-4" />
+            {backingUp ? "Préparation…" : "Télécharger la sauvegarde"}
+          </button>
+
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={async (e) => {
+              const f = e.target.files?.[0];
+              e.target.value = "";
+              if (!f) return;
+              try {
+                setPending(parseBackup(await f.text()));
+                setRestoreText("");
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "Fichier invalide");
+              }
+            }}
+          />
+          <button
+            onClick={() => fileRef.current?.click()}
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-secondary py-3 text-sm font-semibold"
+          >
+            <Upload className="size-4" /> Restaurer depuis un fichier
+          </button>
+        </div>
+      </section>
 
       <section className="mt-6 px-4">
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
