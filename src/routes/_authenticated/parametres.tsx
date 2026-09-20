@@ -1,9 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AlertTriangle, DatabaseBackup, Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useInvalidateAll, useProfile, useRpc } from "@/lib/db";
+import {
+  backupTotal,
+  buildBackup,
+  downloadBackup,
+  parseBackup,
+  restoreBackup,
+  type BackupFile,
+} from "@/lib/backup";
+import { formatDateTime } from "@/lib/format";
 import { Modal, SubmitButton, TextField } from "@/components/modal";
 import { ErrorState, LoadingList, PageHeader } from "@/components/ui-bits";
 
@@ -34,6 +43,11 @@ function SettingsPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [resetStock, setResetStock] = useState(false);
+  const [backingUp, setBackingUp] = useState(false);
+  const [restoring, setRestoring] = useState(false);
+  const [pending, setPending] = useState<BackupFile | null>(null);
+  const [restoreText, setRestoreText] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!profile) return;
@@ -112,6 +126,65 @@ function SettingsPage() {
 
       <section className="mt-6 px-4">
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Sauvegarde des données
+        </h2>
+        <div className="card-surface p-4">
+          <div className="flex items-start gap-3">
+            <DatabaseBackup className="mt-0.5 size-5 text-primary" />
+            <p className="text-xs text-muted-foreground">
+              Téléchargez un fichier contenant toutes vos données (clients, produits, ventes, achats,
+              paiements, dépenses, caisse, stock, historique). Gardez-le en lieu sûr : il permet de tout
+              restaurer si vous changez de téléphone ou perdez vos données.
+            </p>
+          </div>
+          <button
+            onClick={async () => {
+              setBackingUp(true);
+              try {
+                const file = await buildBackup();
+                downloadBackup(file);
+                toast.success(`Sauvegarde téléchargée (${backupTotal(file)} enregistrements)`);
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "Sauvegarde impossible");
+              } finally {
+                setBackingUp(false);
+              }
+            }}
+            disabled={backingUp}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+          >
+            <Download className="size-4" />
+            {backingUp ? "Préparation…" : "Télécharger la sauvegarde"}
+          </button>
+
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={async (e) => {
+              const f = e.target.files?.[0];
+              e.target.value = "";
+              if (!f) return;
+              try {
+                setPending(parseBackup(await f.text()));
+                setRestoreText("");
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "Fichier invalide");
+              }
+            }}
+          />
+          <button
+            onClick={() => fileRef.current?.click()}
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-secondary py-3 text-sm font-semibold"
+          >
+            <Upload className="size-4" /> Restaurer depuis un fichier
+          </button>
+        </div>
+      </section>
+
+      <section className="mt-6 px-4">
+        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Zone sensible
         </h2>
         <div className="card-surface border border-destructive/30 p-4">
@@ -151,6 +224,48 @@ function SettingsPage() {
           </label>
           <SubmitButton loading={reset.isPending}>Tout supprimer</SubmitButton>
         </form>
+      </Modal>
+
+      <Modal open={pending !== null} onClose={() => setPending(null)} title="Confirmer la restauration">
+        {pending ? (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (restoreText.trim().toUpperCase() !== "RESTAURER") {
+                toast.error("Tapez RESTAURER pour confirmer");
+                return;
+              }
+              setRestoring(true);
+              try {
+                await restoreBackup(pending);
+                toast.success("Données restaurées");
+                setPending(null);
+                setRestoreText("");
+                invalidate();
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "Restauration impossible");
+              } finally {
+                setRestoring(false);
+              }
+            }}
+            className="space-y-4"
+          >
+            <div className="rounded-2xl bg-accent px-4 py-3 text-sm text-accent-foreground">
+              Sauvegarde du {formatDateTime(pending.created_at)} · {backupTotal(pending)} enregistrements.
+            </div>
+            <div className="rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+              Attention : toutes vos données actuelles (clients, produits, ventes, achats, paiements,
+              dépenses, caisse, historique) seront <strong>remplacées</strong> par celles du fichier. Cette
+              action est irréversible.
+            </div>
+            <TextField
+              label="Tapez RESTAURER pour confirmer"
+              value={restoreText}
+              onChange={setRestoreText}
+            />
+            <SubmitButton loading={restoring}>Remplacer mes données</SubmitButton>
+          </form>
+        ) : null}
       </Modal>
     </div>
   );
