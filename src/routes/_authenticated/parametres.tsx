@@ -225,6 +225,48 @@ function SettingsPage() {
           <SubmitButton loading={reset.isPending}>Tout supprimer</SubmitButton>
         </form>
       </Modal>
+
+      <Modal open={pending !== null} onClose={() => setPending(null)} title="Confirmer la restauration">
+        {pending ? (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (restoreText.trim().toUpperCase() !== "RESTAURER") {
+                toast.error("Tapez RESTAURER pour confirmer");
+                return;
+              }
+              setRestoring(true);
+              try {
+                await restoreBackup(pending);
+                toast.success("Données restaurées");
+                setPending(null);
+                setRestoreText("");
+                invalidate();
+              } catch (err) {
+                toast.error(err instanceof Error ? err.message : "Restauration impossible");
+              } finally {
+                setRestoring(false);
+              }
+            }}
+            className="space-y-4"
+          >
+            <div className="rounded-2xl bg-accent px-4 py-3 text-sm text-accent-foreground">
+              Sauvegarde du {formatDateTime(pending.created_at)} · {backupTotal(pending)} enregistrements.
+            </div>
+            <div className="rounded-2xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+              Attention : toutes vos données actuelles (clients, produits, ventes, achats, paiements,
+              dépenses, caisse, historique) seront <strong>remplacées</strong> par celles du fichier. Cette
+              action est irréversible.
+            </div>
+            <TextField
+              label="Tapez RESTAURER pour confirmer"
+              value={restoreText}
+              onChange={setRestoreText}
+            />
+            <SubmitButton loading={restoring}>Remplacer mes données</SubmitButton>
+          </form>
+        ) : null}
+      </Modal>
     </div>
   );
 }
