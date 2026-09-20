@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAPayerRouteImport } from './routes/_authenticated/a-payer'
 import { Route as AuthenticatedARecevoirRouteImport } from './routes/_authenticated/a-recevoir'
+import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedCaisseRouteImport } from './routes/_authenticated/caisse'
 import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
 import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
@@ -62,6 +63,11 @@ const AuthenticatedAPayerRoute = AuthenticatedAPayerRouteImport.update({
 const AuthenticatedARecevoirRoute = AuthenticatedARecevoirRouteImport.update({
   id: '/a-recevoir',
   path: '/a-recevoir',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCaisseRoute = AuthenticatedCaisseRouteImport.update({
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/a-payer': typeof AuthenticatedAPayerRoute
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/assistant': typeof AuthenticatedAssistantRoute
   '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/parametres': typeof AuthenticatedParametresRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/a-payer': typeof AuthenticatedAPayerRoute
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/assistant': typeof AuthenticatedAssistantRoute
   '/caisse': typeof AuthenticatedCaisseRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/parametres': typeof AuthenticatedParametresRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/a-payer': typeof AuthenticatedAPayerRoute
   '/_authenticated/a-recevoir': typeof AuthenticatedARecevoirRoute
+  '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/caisse': typeof AuthenticatedCaisseRoute
   '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
   '/_authenticated/parametres': typeof AuthenticatedParametresRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/a-payer'
     | '/a-recevoir'
+    | '/assistant'
     | '/caisse'
     | '/historique'
     | '/parametres'
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/a-payer'
     | '/a-recevoir'
+    | '/assistant'
     | '/caisse'
     | '/historique'
     | '/parametres'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/a-payer'
     | '/_authenticated/a-recevoir'
+    | '/_authenticated/assistant'
     | '/_authenticated/caisse'
     | '/_authenticated/historique'
     | '/_authenticated/parametres'
@@ -380,6 +392,13 @@ declare module '@tanstack/react-router' {
       path: '/a-recevoir'
       fullPath: '/a-recevoir'
       preLoaderRoute: typeof AuthenticatedARecevoirRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/assistant': {
+      id: '/_authenticated/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AuthenticatedAssistantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/caisse': {
@@ -521,6 +540,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAPayerRoute: typeof AuthenticatedAPayerRoute
   AuthenticatedARecevoirRoute: typeof AuthenticatedARecevoirRoute
+  AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedCaisseRoute: typeof AuthenticatedCaisseRoute
   AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
@@ -545,6 +565,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAPayerRoute: AuthenticatedAPayerRoute,
   AuthenticatedARecevoirRoute: AuthenticatedARecevoirRoute,
+  AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedCaisseRoute: AuthenticatedCaisseRoute,
   AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
   AuthenticatedParametresRoute: AuthenticatedParametresRoute,

@@ -10,6 +10,7 @@ import {
   LogOut,
   Receipt,
   Settings,
+  Sparkles,
   ShoppingBag,
   Truck,
   Wallet,
@@ -58,6 +59,7 @@ const GROUPS: { title: string; links: { to: string; label: string; icon: typeof 
   {
     title: "Analyse et compte",
     links: [
+      { to: "/assistant", label: "Assistant financier", icon: Sparkles },
       { to: "/rapports", label: "Rapports et exports", icon: BarChart3 },
       { to: "/historique", label: "Historique", icon: Clock },
       { to: "/parametres", label: "Paramètres", icon: Settings },
