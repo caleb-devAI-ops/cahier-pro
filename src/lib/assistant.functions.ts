@@ -34,7 +34,7 @@ export const askAssistant = createServerFn({ method: "POST" })
         supabase.from("expenses").select("*").order("expense_date", { ascending: false }).limit(300),
         supabase.from("purchases").select("*, suppliers(name)").order("purchase_date", { ascending: false }).limit(200),
         supabase.from("cash_transactions").select("type, amount, occurred_at").limit(2000),
-        supabase.from("products").select("name, stock, min_stock, cost_price, price, track_stock").limit(300),
+        supabase.from("products").select("name, stock, min_stock, cost_price, sale_price, track_stock").limit(300),
         supabase.from("profiles").select("business_name, opening_cash").maybeSingle(),
         supabase.from("customers").select("id, name").limit(500),
       ]);
