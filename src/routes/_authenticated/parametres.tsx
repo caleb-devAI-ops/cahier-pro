@@ -1,9 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AlertTriangle, DatabaseBackup, Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useInvalidateAll, useProfile, useRpc } from "@/lib/db";
+import {
+  backupTotal,
+  buildBackup,
+  downloadBackup,
+  parseBackup,
+  restoreBackup,
+  type BackupFile,
+} from "@/lib/backup";
+import { formatDateTime } from "@/lib/format";
 import { Modal, SubmitButton, TextField } from "@/components/modal";
 import { ErrorState, LoadingList, PageHeader } from "@/components/ui-bits";
 
