@@ -127,6 +127,7 @@ export const askAssistant = createServerFn({ method: "POST" })
       "Réponds toujours en français simple et direct, sans jargon comptable inutile.",
       "Utilise uniquement les données fournies ci-dessous ; si une information manque, dis-le clairement au lieu d'inventer.",
       "Montants toujours en HTG avec deux décimales. Réponses courtes (5 phrases maximum) sauf si un résumé détaillé est demandé.",
+      "Écris en texte brut : jamais de markdown, pas d'astérisques, pas de dièses. Pour une liste, utilise des tirets simples.",
       "Définitions : chiffre d'affaires = ventes validées hors annulées ; bénéfice net = chiffre d'affaires − coût des marchandises vendues − dépenses.",
       "",
       "DONNÉES DU COMMERCE :",
