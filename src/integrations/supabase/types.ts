@@ -52,37 +52,58 @@ export type Database = {
       }
       cash_closures: {
         Row: {
+          closed_at: string
           closing: number
           closure_date: string
+          counted: number | null
           created_at: string
+          expenses_total: number
           id: string
           inflow: number
           note: string | null
           opening: number
           outflow: number
+          payments_in: number
+          payments_out: number
+          sales_total: number
           user_id: string
+          variance: number
         }
         Insert: {
+          closed_at?: string
           closing?: number
           closure_date: string
+          counted?: number | null
           created_at?: string
+          expenses_total?: number
           id?: string
           inflow?: number
           note?: string | null
           opening?: number
           outflow?: number
+          payments_in?: number
+          payments_out?: number
+          sales_total?: number
           user_id?: string
+          variance?: number
         }
         Update: {
+          closed_at?: string
           closing?: number
           closure_date?: string
+          counted?: number | null
           created_at?: string
+          expenses_total?: number
           id?: string
           inflow?: number
           note?: string | null
           opening?: number
           outflow?: number
+          payments_in?: number
+          payments_out?: number
+          sales_total?: number
           user_id?: string
+          variance?: number
         }
         Relationships: []
       }
@@ -837,7 +858,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      close_cash: { Args: { p_date: string; p_note?: string }; Returns: Json }
+      close_cash: {
+        Args: { p_counted?: number; p_date: string; p_note?: string }
+        Returns: Json
+      }
       create_expense: {
         Args: {
           p_amount: number
@@ -902,6 +926,7 @@ export type Database = {
         Returns: Json
       }
       reset_history: { Args: { p_reset_stock?: boolean }; Returns: undefined }
+      restore_backup: { Args: { p_data: Json }; Returns: Json }
     }
     Enums: {
       [_ in never]: never

@@ -29,6 +29,13 @@
       "when": 1789755270646,
       "tag": "0003_receipts",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789932084101,
+      "tag": "0004_closure_details_and_backup_restore",
+      "breakpoints": true
     }
   ]
 }
