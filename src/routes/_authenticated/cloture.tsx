@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCashClosures } from "@/lib/db";
 import { formatDate, formatDateTime, formatMoney, num } from "@/lib/format";
 import { CloseDayButton, DailyClosureSummary, useDailyClosure } from "@/components/daily-closure";
-import { EmptyState, PageHeader, StatusPill } from "@/components/ui-bits";
+import { EmptyState, LoadingList, PageHeader, StatusPill } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/_authenticated/cloture")({
   head: () => ({
@@ -22,6 +22,8 @@ export const Route = createFileRoute("/_authenticated/cloture")({
 function ClosurePage() {
   const day = useDailyClosure();
   const { data: closures = [] } = useCashClosures();
+
+  if (day.isLoading) return <LoadingList />;
 
   return (
     <div className="pb-6">

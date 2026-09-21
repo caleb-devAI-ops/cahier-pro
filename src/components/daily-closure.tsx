@@ -20,6 +20,7 @@ import { StatusPill } from "@/components/ui-bits";
 type Row = Record<string, unknown>;
 
 export interface DailyClosure {
+  isLoading: boolean;
   dateKey: string;
   opening: number;
   salesTotal: number;
@@ -36,7 +37,8 @@ export interface DailyClosure {
 }
 
 export function useDailyClosure(): DailyClosure {
-  const { data: movements = [] } = useCashTransactions();
+  const movementsQ = useCashTransactions();
+  const movements = movementsQ.data ?? [];
   const { data: closures = [] } = useCashClosures();
   const { data: profile } = useProfile();
   const { data: sales = [] } = useSales();
@@ -57,6 +59,7 @@ export function useDailyClosure(): DailyClosure {
   const dateKey = dayKey(new Date());
 
   return {
+    isLoading: movementsQ.isLoading,
     dateKey,
     opening: round2(expected - inflow + outflow),
     salesTotal: revenue(todaySales as never),
