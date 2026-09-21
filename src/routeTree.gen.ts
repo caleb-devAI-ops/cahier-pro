@@ -17,6 +17,7 @@ import { Route as AuthenticatedAPayerRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedARecevoirRouteImport } from './routes/_authenticated/a-recevoir'
 import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
 import { Route as AuthenticatedCaisseRouteImport } from './routes/_authenticated/caisse'
+import { Route as AuthenticatedClotureRouteImport } from './routes/_authenticated/cloture'
 import { Route as AuthenticatedHistoriqueRouteImport } from './routes/_authenticated/historique'
 import { Route as AuthenticatedParametresRouteImport } from './routes/_authenticated/parametres'
 import { Route as AuthenticatedPlusRouteImport } from './routes/_authenticated/plus'
@@ -25,6 +26,7 @@ import { Route as AuthenticatedRapportsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedRechercheRouteImport } from './routes/_authenticated/recherche'
 import { Route as AuthenticatedRecusRouteImport } from './routes/_authenticated/recus'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as AuthenticatedVerificationRouteImport } from './routes/_authenticated/verification'
 import { Route as AuthenticatedAchatsIndexRouteImport } from './routes/_authenticated/achats.index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients.index'
 import { Route as AuthenticatedClientsIdRouteImport } from './routes/_authenticated/clients.$id'
@@ -75,6 +77,11 @@ const AuthenticatedCaisseRoute = AuthenticatedCaisseRouteImport.update({
   path: '/caisse',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedClotureRoute = AuthenticatedClotureRouteImport.update({
+  id: '/cloture',
+  path: '/cloture',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedHistoriqueRoute = AuthenticatedHistoriqueRouteImport.update({
   id: '/historique',
   path: '/historique',
@@ -114,6 +121,12 @@ const AuthenticatedTableauDeBordRoute =
   AuthenticatedTableauDeBordRouteImport.update({
     id: '/tableau-de-bord',
     path: '/tableau-de-bord',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedVerificationRoute =
+  AuthenticatedVerificationRouteImport.update({
+    id: '/verification',
+    path: '/verification',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAchatsIndexRoute =
@@ -183,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/caisse': typeof AuthenticatedCaisseRoute
+  '/cloture': typeof AuthenticatedClotureRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
@@ -191,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/recherche': typeof AuthenticatedRechercheRoute
   '/recus': typeof AuthenticatedRecusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/verification': typeof AuthenticatedVerificationRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
@@ -210,6 +225,7 @@ export interface FileRoutesByTo {
   '/a-recevoir': typeof AuthenticatedARecevoirRoute
   '/assistant': typeof AuthenticatedAssistantRoute
   '/caisse': typeof AuthenticatedCaisseRoute
+  '/cloture': typeof AuthenticatedClotureRoute
   '/historique': typeof AuthenticatedHistoriqueRoute
   '/parametres': typeof AuthenticatedParametresRoute
   '/plus': typeof AuthenticatedPlusRoute
@@ -218,6 +234,7 @@ export interface FileRoutesByTo {
   '/recherche': typeof AuthenticatedRechercheRoute
   '/recus': typeof AuthenticatedRecusRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/verification': typeof AuthenticatedVerificationRoute
   '/clients/$id': typeof AuthenticatedClientsIdRoute
   '/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
@@ -239,6 +256,7 @@ export interface FileRoutesById {
   '/_authenticated/a-recevoir': typeof AuthenticatedARecevoirRoute
   '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
   '/_authenticated/caisse': typeof AuthenticatedCaisseRoute
+  '/_authenticated/cloture': typeof AuthenticatedClotureRoute
   '/_authenticated/historique': typeof AuthenticatedHistoriqueRoute
   '/_authenticated/parametres': typeof AuthenticatedParametresRoute
   '/_authenticated/plus': typeof AuthenticatedPlusRoute
@@ -247,6 +265,7 @@ export interface FileRoutesById {
   '/_authenticated/recherche': typeof AuthenticatedRechercheRoute
   '/_authenticated/recus': typeof AuthenticatedRecusRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/_authenticated/verification': typeof AuthenticatedVerificationRoute
   '/_authenticated/clients/$id': typeof AuthenticatedClientsIdRoute
   '/_authenticated/ventes/$id': typeof AuthenticatedVentesIdRoute
   '/_authenticated/ventes/nouvelle': typeof AuthenticatedVentesNouvelleRoute
@@ -268,6 +287,7 @@ export interface FileRouteTypes {
     | '/a-recevoir'
     | '/assistant'
     | '/caisse'
+    | '/cloture'
     | '/historique'
     | '/parametres'
     | '/plus'
@@ -276,6 +296,7 @@ export interface FileRouteTypes {
     | '/recherche'
     | '/recus'
     | '/tableau-de-bord'
+    | '/verification'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
@@ -295,6 +316,7 @@ export interface FileRouteTypes {
     | '/a-recevoir'
     | '/assistant'
     | '/caisse'
+    | '/cloture'
     | '/historique'
     | '/parametres'
     | '/plus'
@@ -303,6 +325,7 @@ export interface FileRouteTypes {
     | '/recherche'
     | '/recus'
     | '/tableau-de-bord'
+    | '/verification'
     | '/clients/$id'
     | '/ventes/$id'
     | '/ventes/nouvelle'
@@ -323,6 +346,7 @@ export interface FileRouteTypes {
     | '/_authenticated/a-recevoir'
     | '/_authenticated/assistant'
     | '/_authenticated/caisse'
+    | '/_authenticated/cloture'
     | '/_authenticated/historique'
     | '/_authenticated/parametres'
     | '/_authenticated/plus'
@@ -331,6 +355,7 @@ export interface FileRouteTypes {
     | '/_authenticated/recherche'
     | '/_authenticated/recus'
     | '/_authenticated/tableau-de-bord'
+    | '/_authenticated/verification'
     | '/_authenticated/clients/$id'
     | '/_authenticated/ventes/$id'
     | '/_authenticated/ventes/nouvelle'
@@ -408,6 +433,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCaisseRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/cloture': {
+      id: '/_authenticated/cloture'
+      path: '/cloture'
+      fullPath: '/cloture'
+      preLoaderRoute: typeof AuthenticatedClotureRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/historique': {
       id: '/_authenticated/historique'
       path: '/historique'
@@ -462,6 +494,13 @@ declare module '@tanstack/react-router' {
       path: '/tableau-de-bord'
       fullPath: '/tableau-de-bord'
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/verification': {
+      id: '/_authenticated/verification'
+      path: '/verification'
+      fullPath: '/verification'
+      preLoaderRoute: typeof AuthenticatedVerificationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/achats/': {
@@ -542,6 +581,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedARecevoirRoute: typeof AuthenticatedARecevoirRoute
   AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
   AuthenticatedCaisseRoute: typeof AuthenticatedCaisseRoute
+  AuthenticatedClotureRoute: typeof AuthenticatedClotureRoute
   AuthenticatedHistoriqueRoute: typeof AuthenticatedHistoriqueRoute
   AuthenticatedParametresRoute: typeof AuthenticatedParametresRoute
   AuthenticatedPlusRoute: typeof AuthenticatedPlusRoute
@@ -550,6 +590,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedRechercheRoute: typeof AuthenticatedRechercheRoute
   AuthenticatedRecusRoute: typeof AuthenticatedRecusRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
+  AuthenticatedVerificationRoute: typeof AuthenticatedVerificationRoute
   AuthenticatedClientsIdRoute: typeof AuthenticatedClientsIdRoute
   AuthenticatedVentesIdRoute: typeof AuthenticatedVentesIdRoute
   AuthenticatedVentesNouvelleRoute: typeof AuthenticatedVentesNouvelleRoute
@@ -567,6 +608,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedARecevoirRoute: AuthenticatedARecevoirRoute,
   AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
   AuthenticatedCaisseRoute: AuthenticatedCaisseRoute,
+  AuthenticatedClotureRoute: AuthenticatedClotureRoute,
   AuthenticatedHistoriqueRoute: AuthenticatedHistoriqueRoute,
   AuthenticatedParametresRoute: AuthenticatedParametresRoute,
   AuthenticatedPlusRoute: AuthenticatedPlusRoute,
@@ -575,6 +617,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRechercheRoute: AuthenticatedRechercheRoute,
   AuthenticatedRecusRoute: AuthenticatedRecusRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
+  AuthenticatedVerificationRoute: AuthenticatedVerificationRoute,
   AuthenticatedClientsIdRoute: AuthenticatedClientsIdRoute,
   AuthenticatedVentesIdRoute: AuthenticatedVentesIdRoute,
   AuthenticatedVentesNouvelleRoute: AuthenticatedVentesNouvelleRoute,
