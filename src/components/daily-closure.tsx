@@ -185,7 +185,7 @@ export function CloseDayButton({ day, compact }: { day: DailyClosure; compact?: 
             </div>
           ) : null}
           <TextArea label="Note (optionnel)" value={note} onChange={setNote} />
-          <SubmitButton loading={closeCash.isPending} label="Valider le bilan du jour" />
+          <SubmitButton loading={closeCash.isPending}>Valider le bilan du jour</SubmitButton>
         </form>
       </Modal>
     </>
