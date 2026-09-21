@@ -191,3 +191,35 @@ export function CloseDayButton({ day, compact }: { day: DailyClosure; compact?: 
     </>
   );
 }
+
+/** Rappel automatique du soir : récapitulatif + validation, dès 17 h si la journée n'est pas clôturée. */
+export function EveningClosureBanner() {
+  const day = useDailyClosure();
+  const [dismissed, setDismissed] = useState(false);
+  const hour = new Date().getHours();
+  const hasActivity =
+    day.salesCount > 0 || day.expensesCount > 0 || day.inflow > 0 || day.outflow > 0;
+
+  if (dismissed || day.isClosed || hour < 17 || !hasActivity) return null;
+
+  return (
+    <section className="mx-4 mt-4 rounded-3xl border border-primary/25 bg-primary/5 p-4">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm font-semibold">Bilan du soir</p>
+        <button onClick={() => setDismissed(true)} className="text-xs text-muted-foreground">
+          Plus tard
+        </button>
+      </div>
+      <p className="mt-1 text-xs text-muted-foreground">
+        {day.salesCount} vente(s) · {formatMoney(day.salesTotal)} · dépenses {formatMoney(day.expensesTotal)}
+      </p>
+      <div className="mt-3 flex items-center justify-between rounded-2xl bg-background px-4 py-3 text-sm font-semibold">
+        <span>Solde attendu en caisse</span>
+        <span className="tabular">{formatMoney(day.expected)}</span>
+      </div>
+      <div className="mt-3">
+        <CloseDayButton day={day} />
+      </div>
+    </section>
+  );
+}

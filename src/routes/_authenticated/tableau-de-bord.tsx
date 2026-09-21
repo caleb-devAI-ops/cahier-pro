@@ -10,6 +10,7 @@ import {
   Tooltip,
   XAxis,
 } from "recharts";
+import { EveningClosureBanner } from "@/components/daily-closure";
 import { AlertTriangle, ArrowRight, BellRing, Search, TrendingUp } from "lucide-react";
 import {
   useCashTransactions,
@@ -180,6 +181,8 @@ function Dashboard() {
           </Link>
         </div>
       </header>
+
+      <EveningClosureBanner />
 
       {/* Sélecteur de période */}
       <div className="no-scrollbar flex gap-2 overflow-x-auto px-4">
