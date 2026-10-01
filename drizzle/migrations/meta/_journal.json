@@ -50,6 +50,13 @@
       "when": 1790888142199,
       "tag": "0006_auto_cash_closure",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790888164590,
+      "tag": "0007_enable_pg_cron",
+      "breakpoints": true
     }
   ]
 }
