@@ -858,6 +858,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_stock: {
+        Args: { p_new_stock: number; p_product_id: string; p_reason: string }
+        Returns: Json
+      }
       close_cash: {
         Args: { p_counted?: number; p_date: string; p_note?: string }
         Returns: Json
