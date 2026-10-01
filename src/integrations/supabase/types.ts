@@ -52,6 +52,7 @@ export type Database = {
       }
       cash_closures: {
         Row: {
+          auto: boolean
           closed_at: string
           closing: number
           closure_date: string
@@ -70,6 +71,7 @@ export type Database = {
           variance: number
         }
         Insert: {
+          auto?: boolean
           closed_at?: string
           closing?: number
           closure_date: string
@@ -88,6 +90,7 @@ export type Database = {
           variance?: number
         }
         Update: {
+          auto?: boolean
           closed_at?: string
           closing?: number
           closure_date?: string
@@ -858,10 +861,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _compute_closure: {
+        Args: {
+          _uid: string
+          p_auto: boolean
+          p_counted: number
+          p_date: string
+          p_note: string
+          p_overwrite: boolean
+        }
+        Returns: Json
+      }
       adjust_stock: {
         Args: { p_new_stock: number; p_product_id: string; p_reason: string }
         Returns: Json
       }
+      auto_close_all_cash: { Args: never; Returns: number }
       close_cash: {
         Args: { p_counted?: number; p_date: string; p_note?: string }
         Returns: Json

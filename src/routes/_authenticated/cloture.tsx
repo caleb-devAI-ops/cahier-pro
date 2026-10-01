@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCashClosures } from "@/lib/db";
 import { formatDate, formatDateTime, formatMoney, num } from "@/lib/format";
-import { CloseDayButton, DailyClosureSummary, useDailyClosure } from "@/components/daily-closure";
+import { ClosureAlerts, CloseDayButton, DailyClosureSummary, useDailyClosure } from "@/components/daily-closure";
 import { EmptyState, LoadingList, PageHeader, StatusPill } from "@/components/ui-bits";
 
 export const Route = createFileRoute("/_authenticated/cloture")({
@@ -32,7 +32,11 @@ function ClosurePage() {
         subtitle={day.isClosed ? "Journée déjà clôturée" : "Bilan de la journée en cours"}
       />
 
-      <section>
+      <p className="px-4 pb-3 text-xs text-muted-foreground">
+        Si vous oubliez, la journée est clôturée automatiquement juste après minuit.
+      </p>
+      <ClosureAlerts />
+      <section className="mt-4">
         <h2 className="flex items-center justify-between px-4 pb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Récapitulatif du jour
           {day.isClosed ? <StatusPill label="Clôturée" tone="success" /> : null}
@@ -73,6 +77,8 @@ function ClosurePage() {
                     <span>Dépenses : {formatMoney(c["expenses_total"])}</span>
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
+                    {c["auto"] ? <StatusPill label="Automatique" tone="primary" /> : null}
+                    {num(c["closing"]) < 0 ? <StatusPill label="Solde négatif" tone="destructive" /> : null}
                     {counted === null || counted === undefined ? (
                       <StatusPill label="Caisse non comptée" tone="muted" />
                     ) : (
@@ -80,7 +86,7 @@ function ClosurePage() {
                         <StatusPill label={`Compté ${formatMoney(counted)}`} tone="primary" />
                         <StatusPill
                           label={v === 0 ? "Aucun écart" : `Écart ${formatMoney(v)}`}
-                          tone={v === 0 ? "success" : "warning"}
+                          tone={v === 0 ? "success" : "destructive"}
                         />
                       </>
                     )}
