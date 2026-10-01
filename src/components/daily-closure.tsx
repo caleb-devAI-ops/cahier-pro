@@ -226,3 +226,67 @@ export function EveningClosureBanner() {
     </section>
   );
 }
+
+/** Avis sur les clôtures récentes : caisse décalée, non comptée (auto) ou solde négatif. */
+export function closureIssue(c: Record<string, unknown>): string | null {
+  const v = num(c["variance"]);
+  const counted = c["counted"];
+  if (num(c["closing"]) < 0) return `Solde de caisse négatif (${formatMoney(c["closing"])})`;
+  if (counted !== null && counted !== undefined && v !== 0)
+    return `Caisse décalée : écart de ${formatMoney(v)}`;
+  if (c["auto"] && (counted === null || counted === undefined)) return "Clôturée automatiquement — caisse à compter";
+  return null;
+}
+
+export function ClosureAlerts({ compact = false }: { compact?: boolean }) {
+  const { data: closures = [] } = useCashClosures();
+  const recent = (closures as Record<string, unknown>[]).slice(0, 7);
+  const issues = recent.map((c) => ({ c, msg: closureIssue(c) })).filter((x) => x.msg);
+  if (issues.length === 0) return null;
+  const shown = compact ? issues.slice(0, 1) : issues;
+  return (
+    <section className="mx-4 mt-4 space-y-2 rounded-3xl border border-warning/40 bg-warning/10 p-4 text-sm">
+      <p className="font-semibold">Clôture de caisse à vérifier</p>
+      {shown.map(({ c, msg }) => (
+        <div key={String(c["id"])} className="flex items-center justify-between gap-2">
+          <span>
+            {new Date(String(c["closure_date"]) + "T12:00:00").toLocaleDateString("fr-FR")} · {msg}
+          </span>
+          <RecountButton date={String(c["closure_date"])} expected={num(c["closing"])} />
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function RecountButton({ date, expected }: { date: string; expected: number }) {
+  const [open, setOpen] = useState(false);
+  const [counted, setCounted] = useState("");
+  const rpc = useRpc("close_cash");
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (counted === "") return toast.error("Saisissez le montant compté");
+    try {
+      await rpc.mutateAsync({ p_date: date, p_counted: num(counted), p_note: "Recomptage après clôture automatique" });
+      const v = round2(num(counted) - expected);
+      v === 0 ? toast.success("Caisse juste, aucun écart") : toast.warning(`Écart enregistré : ${formatMoney(v)}`);
+      setOpen(false);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erreur");
+    }
+  }
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className="shrink-0 rounded-full bg-card px-3 py-1.5 text-xs font-semibold">
+        Compter
+      </button>
+      <Modal open={open} onClose={() => setOpen(false)} title="Compter la caisse">
+        <form onSubmit={submit} className="space-y-4">
+          <p className="text-sm text-muted-foreground">Solde attendu : {formatMoney(expected)}</p>
+          <TextField label="Montant compté (HTG)" value={counted} onChange={setCounted} type="number" step="0.01" inputMode="decimal" />
+          <SubmitButton loading={rpc.isPending}>Enregistrer</SubmitButton>
+        </form>
+      </Modal>
+    </>
+  );
+}
