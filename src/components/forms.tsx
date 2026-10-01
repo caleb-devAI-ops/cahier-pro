@@ -110,6 +110,7 @@ export function ProductDialog({
   product?: ProductRecord | null;
 }) {
   const qc = useQueryClient();
+  const [stockReason, setStockReason] = useState("");
   const { data: suppliers = [] } = useSuppliers();
   const [form, setForm] = useState({
     name: "",
@@ -141,9 +142,12 @@ export function ProductDialog({
       supplier_id: product?.supplier_id ?? "",
       track_stock: product?.track_stock ?? true,
     });
+    setStockReason("");
   }, [open, product]);
 
   const margin = num(form.sale_price) - num(form.cost_price);
+  const stockChanged =
+    !!product && form.stock !== "" && Math.round(num(form.stock) * 100) !== Math.round(num(product.stock) * 100);
   const marginPct = num(form.sale_price) > 0 ? (margin / num(form.sale_price)) * 100 : 0;
 
   async function submit(e: React.FormEvent) {
@@ -165,6 +169,14 @@ export function ProductDialog({
     let error;
     if (product) {
       ({ error } = await supabase.from("products").update(payload).eq("id", product.id));
+      if (!error && form.track_stock && stockChanged) {
+        if (num(form.stock) < 0) { setLoading(false); toast.error("Le stock ne peut pas être négatif"); return; }
+        ({ error } = await supabase.rpc("adjust_stock", {
+          p_product_id: product.id,
+          p_new_stock: num(form.stock),
+          p_reason: stockReason.trim(),
+        }));
+      }
     } else {
       ({ error } = await supabase
         .from("products")
@@ -174,6 +186,7 @@ export function ProductDialog({
     if (error) { toast.error(error.message); return; }
     toast.success(product ? "Produit mis à jour" : "Produit ajouté");
     qc.invalidateQueries({ queryKey: qk.products });
+    qc.invalidateQueries({ queryKey: qk.stock });
     onClose();
   }
 
@@ -220,15 +233,13 @@ export function ProductDialog({
 
         {form.track_stock ? (
           <div className="grid grid-cols-3 gap-3">
-            {!product ? (
-              <TextField
-                label="Stock initial"
-                value={form.stock}
-                onChange={(v) => setForm({ ...form, stock: v })}
-                inputMode="decimal"
-                type="number"
-              />
-            ) : null}
+            <TextField
+              label={product ? "Stock actuel" : "Stock initial"}
+              value={form.stock}
+              onChange={(v) => setForm({ ...form, stock: v })}
+              inputMode="decimal"
+              type="number"
+            />
             <TextField
               label="Stock min."
               value={form.min_stock}
@@ -237,6 +248,21 @@ export function ProductDialog({
               type="number"
             />
             <TextField label="Unité" value={form.unit} onChange={(v) => setForm({ ...form, unit: v })} />
+          </div>
+        ) : null}
+        {product && form.track_stock && stockChanged ? (
+          <div className="space-y-2 rounded-2xl border border-primary/30 bg-primary/5 p-3">
+            <p className="text-xs text-muted-foreground">
+              Correction : {num(product.stock)} → {num(form.stock)} (écart{" "}
+              {num(form.stock) - num(product.stock) > 0 ? "+" : ""}
+              {(num(form.stock) - num(product.stock)).toFixed(2)}). Elle sera conservée dans l'historique.
+            </p>
+            <TextField
+              label="Raison de la correction"
+              value={stockReason}
+              onChange={setStockReason}
+              placeholder="Ex. erreur de comptage, produit abîmé…"
+            />
           </div>
         ) : null}
 
