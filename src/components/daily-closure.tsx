@@ -265,7 +265,7 @@ function RecountButton({ date, expected }: { date: string; expected: number }) {
   const rpc = useRpc<Record<string, unknown>>("close_cash");
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (counted === "") return toast.error("Saisissez le montant compté");
+    if (counted === "") { toast.error("Saisissez le montant compté"); return; }
     try {
       await rpc.mutateAsync({ p_date: date, p_counted: num(counted), p_note: "Recomptage après clôture automatique" });
       const v = round2(num(counted) - expected);
