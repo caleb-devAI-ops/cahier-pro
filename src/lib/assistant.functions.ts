@@ -86,7 +86,7 @@ export const askAssistant = createServerFn({ method: "POST" })
     }, {});
 
     const summary = [
-      `Commerce : ${String(profile?.["business_name"] ?? "LIKID LAKAY")}. Devise : HTG. Date du jour : ${todayKey}.`,
+      `Commerce : ${String(profile?.["business_name"] ?? "My Business")}. Devise : HTG. Date du jour : ${todayKey}.`,
       `Nombre de clients enregistrés : ${customers.length}. Produits : ${products.length}.`,
       "",
       "AUJOURD'HUI :",

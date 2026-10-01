@@ -1,10 +1,10 @@
-/** Génération du reçu PDF professionnel (LIKID LAKAY) à partir d'une vente. */
+/** Génération du reçu PDF professionnel (My Business) à partir d'une vente. */
 import { jsPDF } from "jspdf";
 import QRCode from "qrcode";
 import logoUrl from "@/assets/logo-likid-lakay.png";
 import { formatDateTime, formatMoney, formatQty, num, paymentMethodLabel } from "./format";
 
-export const BUSINESS_NAME = "LIKID LAKAY";
+export const BUSINESS_NAME = "My Business";
 
 export interface ReceiptItem {
   product_name: string;

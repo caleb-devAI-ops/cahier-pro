@@ -110,6 +110,7 @@ export function ProductDialog({
   product?: ProductRecord | null;
 }) {
   const qc = useQueryClient();
+  const [stockReason, setStockReason] = useState("");
   const { data: suppliers = [] } = useSuppliers();
   const [form, setForm] = useState({
     name: "",
@@ -141,10 +142,12 @@ export function ProductDialog({
       supplier_id: product?.supplier_id ?? "",
       track_stock: product?.track_stock ?? true,
     });
+    setStockReason("");
   }, [open, product]);
 
   const margin = num(form.sale_price) - num(form.cost_price);
-  const stockChanged = !!product && form.stock !== "" && round2Eq(num(form.stock), num(product.stock)) === false;
+  const stockChanged =
+    !!product && form.stock !== "" && Math.round(num(form.stock) * 100) !== Math.round(num(product.stock) * 100);
   const marginPct = num(form.sale_price) > 0 ? (margin / num(form.sale_price)) * 100 : 0;
 
   async function submit(e: React.FormEvent) {

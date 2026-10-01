@@ -115,7 +115,7 @@ function RemindersPage() {
         title="Clients à relancer"
         rows={clientDebts}
         message={(r) =>
-          `Bonjour ${r.name}, un solde de ${formatMoney(r.due)} reste dû depuis le ${formatDate(r.oldest)}. Merci de régulariser dès que possible. — LIKID LAKAY`
+          `Bonjour ${r.name}, un solde de ${formatMoney(r.due)} reste dû depuis le ${formatDate(r.oldest)}. Merci de régulariser dès que possible. — My Business`
         }
         empty="Aucun client en retard de paiement."
       />
@@ -123,7 +123,7 @@ function RemindersPage() {
         title="Fournisseurs à payer"
         rows={supplierDebts}
         message={(r) =>
-          `Bonjour, concernant notre solde de ${formatMoney(r.due)} depuis le ${formatDate(r.oldest)} — LIKID LAKAY`
+          `Bonjour, concernant notre solde de ${formatMoney(r.due)} depuis le ${formatDate(r.oldest)} — My Business`
         }
         empty="Aucune dette fournisseur en retard."
       />
