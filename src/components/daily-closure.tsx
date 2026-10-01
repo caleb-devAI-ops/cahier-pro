@@ -262,7 +262,7 @@ export function ClosureAlerts({ compact = false }: { compact?: boolean }) {
 function RecountButton({ date, expected }: { date: string; expected: number }) {
   const [open, setOpen] = useState(false);
   const [counted, setCounted] = useState("");
-  const rpc = useRpc("close_cash");
+  const rpc = useRpc<Record<string, unknown>>("close_cash");
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (counted === "") return toast.error("Saisissez le montant compté");
