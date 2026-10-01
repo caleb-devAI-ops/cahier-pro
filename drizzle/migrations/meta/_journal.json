@@ -43,6 +43,13 @@
       "when": 1790887944769,
       "tag": "0005_adjust_stock",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790888142199,
+      "tag": "0006_auto_cash_closure",
+      "breakpoints": true
     }
   ]
 }
