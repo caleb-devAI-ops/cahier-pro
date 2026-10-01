@@ -186,6 +186,7 @@ export function ProductDialog({
     if (error) { toast.error(error.message); return; }
     toast.success(product ? "Produit mis à jour" : "Produit ajouté");
     qc.invalidateQueries({ queryKey: qk.products });
+    qc.invalidateQueries({ queryKey: qk.stock });
     onClose();
   }
 
