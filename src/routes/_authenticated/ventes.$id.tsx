@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Download, MessageCircle, Printer, Share2, Undo2, Wallet } from "lucide-react";
 import {
+  BUSINESS_ADDRESS,
+  BUSINESS_LOGO_URL,
+  BUSINESS_NAME,
   downloadReceiptPdf,
   printReceiptPdf,
   receiptFromSale,
@@ -82,9 +85,18 @@ function SaleDetail() {
 
       <div className="card-surface p-5 print:shadow-none" id="recu">
         <div className="text-center">
+          <img
+            src={BUSINESS_LOGO_URL}
+            alt="Logo PI PWÒP"
+            className="mx-auto mb-2 size-20 rounded-full object-contain"
+          />
           <h1 className="font-display text-xl font-semibold">
-            {profile?.business_name || "Mon commerce"}
+            {BUSINESS_NAME}
           </h1>
+          <p className="mt-1 text-xs text-muted-foreground">{BUSINESS_ADDRESS}</p>
+          {receipt.businessPhone ? (
+            <p className="text-xs text-muted-foreground">Tél / WhatsApp : {receipt.businessPhone}</p>
+          ) : null}
           <p className="mt-1 text-xs text-muted-foreground">Reçu {receipt.number}</p>
           <p className="text-xs text-muted-foreground">Vente {sale.number}</p>
           <p className="text-xs text-muted-foreground">{formatDateTime(sale.sale_date)}</p>
