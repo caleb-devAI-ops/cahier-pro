@@ -1,10 +1,12 @@
-/** Génération du reçu PDF professionnel (My Business) à partir d'une vente. */
+/** Génération du reçu PDF professionnel (PI PWÒP) à partir d'une vente. */
 import { jsPDF } from "jspdf";
 import QRCode from "qrcode";
-import logoUrl from "@/assets/logo-likid-lakay.png";
+import logoAsset from "@/assets/pi-pwop-logo.png.asset.json";
 import { formatDateTime, formatMoney, formatQty, num, paymentMethodLabel } from "./format";
 
-export const BUSINESS_NAME = "My Business";
+export const BUSINESS_NAME = "PI PWÒP";
+export const BUSINESS_ADDRESS = "Cibert Marin 40 Rue Jovalsaint #10";
+export const BUSINESS_LOGO_URL = logoAsset.url;
 
 export interface ReceiptItem {
   product_name: string;
@@ -57,7 +59,7 @@ let logoCache: string | null = null;
 async function loadLogo(): Promise<string | null> {
   if (logoCache) return logoCache;
   try {
-    const res = await fetch(logoUrl);
+    const res = await fetch(BUSINESS_LOGO_URL);
     const blob = await res.blob();
     logoCache = await new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
@@ -369,7 +371,7 @@ export function receiptFromSale(sale: SaleLikeReceipt, profile?: ProfileLike | n
     saleNumber: sale.number,
     ...(sale.id ? { saleId: sale.id } : {}),
     date: sale.sale_date,
-    businessAddress: profile?.business_address ?? "",
+    businessAddress: BUSINESS_ADDRESS,
     businessPhone: profile?.business_whatsapp || profile?.phone || "",
     sellerName: profile?.full_name ?? "",
     customerName: sale.customers?.name ?? "Client de passage",
