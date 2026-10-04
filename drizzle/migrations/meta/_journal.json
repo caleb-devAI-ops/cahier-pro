@@ -57,6 +57,13 @@
       "when": 1790888164590,
       "tag": "0007_enable_pg_cron",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791080402862,
+      "tag": "0008_products_phase1_units_costs",
+      "breakpoints": true
     }
   ]
 }
