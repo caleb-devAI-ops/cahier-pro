@@ -331,57 +331,102 @@ export type Database = {
       products: {
         Row: {
           archived: boolean
+          barcode: string | null
+          brand: string | null
           category: string | null
+          cost_breakdown: Json
           cost_price: number
           created_at: string
           description: string | null
+          estimated_time: string | null
           id: string
+          location: string | null
+          max_stock: number | null
+          min_price: number | null
           min_stock: number
           name: string
+          product_type: string
+          promo_price: number | null
+          purchase_price: number | null
+          purchase_qty: number | null
+          reference_unit: string | null
+          reserved_stock: number
           sale_price: number
           sku: string | null
           status: string
           stock: number
+          subcategory: string | null
           supplier_id: string | null
           track_stock: boolean
           unit: string
           user_id: string
+          wholesale_price: number | null
         }
         Insert: {
           archived?: boolean
+          barcode?: string | null
+          brand?: string | null
           category?: string | null
+          cost_breakdown?: Json
           cost_price?: number
           created_at?: string
           description?: string | null
+          estimated_time?: string | null
           id?: string
+          location?: string | null
+          max_stock?: number | null
+          min_price?: number | null
           min_stock?: number
           name: string
+          product_type?: string
+          promo_price?: number | null
+          purchase_price?: number | null
+          purchase_qty?: number | null
+          reference_unit?: string | null
+          reserved_stock?: number
           sale_price?: number
           sku?: string | null
           status?: string
           stock?: number
+          subcategory?: string | null
           supplier_id?: string | null
           track_stock?: boolean
           unit?: string
           user_id?: string
+          wholesale_price?: number | null
         }
         Update: {
           archived?: boolean
+          barcode?: string | null
+          brand?: string | null
           category?: string | null
+          cost_breakdown?: Json
           cost_price?: number
           created_at?: string
           description?: string | null
+          estimated_time?: string | null
           id?: string
+          location?: string | null
+          max_stock?: number | null
+          min_price?: number | null
           min_stock?: number
           name?: string
+          product_type?: string
+          promo_price?: number | null
+          purchase_price?: number | null
+          purchase_qty?: number | null
+          reference_unit?: string | null
+          reserved_stock?: number
           sale_price?: number
           sku?: string | null
           status?: string
           stock?: number
+          subcategory?: string | null
           supplier_id?: string | null
           track_stock?: boolean
           unit?: string
           user_id?: string
+          wholesale_price?: number | null
         }
         Relationships: [
           {
@@ -853,6 +898,65 @@ export type Database = {
           phone?: string | null
           user_id?: string
           whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      unit_conversions: {
+        Row: {
+          created_at: string
+          factor: number
+          from_unit: string
+          id: string
+          product_id: string | null
+          to_unit: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          factor: number
+          from_unit: string
+          id?: string
+          product_id?: string | null
+          to_unit: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          factor?: number
+          from_unit?: string
+          id?: string
+          product_id?: string | null
+          to_unit?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "unit_conversions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      units: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
         }
         Relationships: []
       }
