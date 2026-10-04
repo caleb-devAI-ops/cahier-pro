@@ -242,6 +242,20 @@ export function useSaleReceipts() {
   });
 }
 
+export function useUnits() {
+  return useQuery({
+    queryKey: ["units"],
+    queryFn: () => unwrap(supabase.from("units").select("*").order("name")),
+  });
+}
+
+export function useConversions() {
+  return useQuery({
+    queryKey: ["unit_conversions"],
+    queryFn: () => unwrap(supabase.from("unit_conversions").select("*").order("created_at")),
+  });
+}
+
 export type RpcName =
   | "create_sale"
   | "create_purchase"
